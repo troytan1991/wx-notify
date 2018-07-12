@@ -1,0 +1,37 @@
+page {
+  background-color: #f2eeee;
+}
+
+.content-area {
+  width: 710rpx;
+  padding: 10rpx;
+  margin: 10rpx;
+  font-size: 30rpx;
+  height: 400rpx;
+  background-color: white;
+}
+
+.order-section {
+  display: flex;
+  width: 100%;
+  height: 100rpx;
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+}
+
+.cancel-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1296db;
+  color: white;
+}

@@ -1,0 +1,20 @@
+<view class='wrap-view'>
+  <view wx:for="{{notifies}}" wx:key="notifyId" class='notify-view'>
+    <text class='time-text'>{{item.sendOn}}</text>
+    <text bindtap='onContentTap' data-id="{{item.notifyId}}" class='title-text'>{{item.title}}</text>
+    <text bindtap='onContentTap' data-id="{{item.notifyId}}" class='content-text'>{{item.content}}</text>
+    <view class='status-view'>
+      <image class='view-img' src='/icons/view.png' />
+      <text>{{item.viewCount}}</text>
+      <image class='comment-img' src='/icons/comment.png' />
+      <text>{{item.commentCount}}</text>
+      <image class='confirm-img' src='/icons/confirm.png' />
+      <text>{{item.confirmCount}}</text>
+      <view class='oper-view'>
+        <image bindtap='onEditTap' data-item="{{item}}" class='edit-img' src='/icons/edit.png'></image>
+        <image bindtap='onDeleteTap' data-id="{{item.notifyId}}" class='delete-img' src='/icons/delete.png'></image>
+      </view>
+    </view>
+  </view>
+</view>
+<button type='primary' class='create-btn' bindtap='onCreateTap'>发布</button>

@@ -1,0 +1,44 @@
+<scroll-view scroll-y="true" class='main-scoll'>
+  <view class='notify-container'>
+    <text class='title-text'>{{notify.title}}</text>
+    <text class='content-text'>{{notify.content}}</text>
+    <view class='sign-view'>
+      <text>{{notify.name}}</text>
+      <text>{{notify.createOn}}</text>
+    </view>
+    <button wx:if="{{confirmStatus==1}}" bindtap='onConfirmTap' data-id='{{notify.notifyId}}' class='confirm-btn' type="{{isConfirmed?'default':'primary'}}">确认</button>
+    <button wx:else class='confirm-btn'>已确认</button>
+  </view>
+  <view class='confirm-info' bindtap='onInfoTap'>
+    <text class='sum-label'>{{confirms.length}}人确认</text>
+    <scroll-view class='avatar-scroll' scroll-x="true">
+      <image wx:for="{{confirms}}" wx:key="confirmId" src="{{item.avatarUrl}}"></image>
+    </scroll-view>
+    <image class='navigate-img' src='/icons/navigate.png'></image>
+  </view>
+  <view class='comment-container'>
+    <view class='comment-title'>
+      <text class='comment-label'>留言</text>
+      <view class='write-comment' bindtap='onCommentTap'>
+        <text class='new-comment'>写留言</text>
+        <image src='/icons/write.png'></image>
+      </view>
+    </view>
+    <view class='comment-view' wx:for="{{comments}}" wx:key="commentId">
+      <view class='comment-header'>
+        <image class='avatar-img' src='{{item.avatarUrl}}'></image>
+        <text class='name-label'>{{item.nickName}}</text>
+        <text class='dt-label'>{{item.createOn}}</text>
+      </view>
+      <text class='comment-body'>{{item.content}}</text>
+    </view>
+  </view>
+</scroll-view>
+<view class="order-section">
+  <view bindtap='onHomeTap' class='home-box'>
+    <image src='/icons/home.png'></image>
+    <text>主页</text>
+  </view>
+  <button open-type='share' class='forward-btn'>转发到群</button>
+</view>
+<button type='primary' class='create-btn' bindtap='onCreateTap'>发布</button>

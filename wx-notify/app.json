@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/send/send",
+    "pages/comment/comment",
+    "pages/confirm/confirm",
+    "pages/publish/publish",
+    "pages/notify/notify",
+    "pages/receive/receive",
+    "pages/aboutme/aboutme",
+    "pages/auth/auth",
+    "pages/authFail/authFail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1296db",
+    "navigationBarTitleText": "群通知助手",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/send/send",
+        "iconPath": "icons/send.png",
+        "selectedIconPath": "icons/sendHL.png",
+        "text": "我发送的"
+      },
+      {
+        "pagePath": "pages/receive/receive",
+        "iconPath": "icons/receive.png",
+        "selectedIconPath": "icons/receiveHL.png",
+        "text": "我接收的"
+      },
+      {
+        "pagePath": "pages/aboutme/aboutme",
+        "iconPath": "icons/aboutme.png",
+        "selectedIconPath": "icons/aboutmeHL.png",
+        "text": "我的"
+      }
+    ],
+    "color": "#000",
+    "selectedColor": "#1296db"
+  }
+}

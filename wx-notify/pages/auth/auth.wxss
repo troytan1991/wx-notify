@@ -1,0 +1,17 @@
+.wrap-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 45rpx;
+}
+
+.welcome-label {
+  color: #1296db;
+  line-height: 500rpx;
+}
+
+.auth-btn {
+  width: 350rpx;
+  background-color: #1296db;
+  color: white;
+}

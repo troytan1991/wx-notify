@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: dev
+    
+pagehelper:
+  autoDialect: true
+  closeConn: true
+  pageSizeZero: true
+  
+server:
+  session.timeout: 900
+  context-path: /notify
+  port: 8081
+  
+wx:
+  appId: wx4ee2806fe2087828
+  appSecret: 77bc2c1819c3a276afc64e98d7b0c5e9
+  oauthUrl: https://api.weixin.qq.com/sns/jscode2session
+
+---
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/notify?useSSL=false
+    username: notify
+    password: Pass1234
+    
+---
+spring:
+  profiles: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.98.119.1:3306/notify?useSSL=false
+    username: notify
+    password: 2wsx#EDC
+    
+server:
+  port: 8081
+  ssl:
+    key-store: classpath:troytan1991.club.pfx
+    key-store-password: 4nh0hc1eabd49
+    keyStoreType: PKCS12

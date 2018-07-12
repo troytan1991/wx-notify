@@ -1,0 +1,194 @@
+page {
+  background-color: #f2eeee;
+}
+
+.main-scoll {
+  width: 100%;
+  height: 1120rpx;
+}
+
+.notify-container {
+  width: 700rpx;
+  padding: 0 10rpx;
+  display: flex;
+  margin-left: 15rpx;
+  margin-top: 10rpx;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 4rpx 4rpx 4rpx 4rpx #c3c2ba;
+}
+
+.title-text {
+  align-self: center;
+  font-weight: bold;
+  font-size: 40rpx;
+  margin-top: 20rpx;
+}
+
+.content-text {
+  margin-top: 20rpx;
+  font-size: 30rpx;
+  text-indent: 60rpx;
+  min-height: 270rpx;
+}
+
+.sign-view {
+  margin-top: 20rpx;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 30rpx;
+  color: grey;
+}
+
+.confirm-btn {
+  width: 500rpx;
+  margin: 10rpx;
+  align-self: center;
+}
+
+.confirm-info {
+  width: 750rpx;
+  height: 130rpx;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  margin-top: 10rpx;
+}
+
+.sum-label {
+  font-size: 30rpx;
+  margin-left: 10rpx;
+}
+
+.avatar-scroll {
+  margin-left: 20rpx;
+  width: 70%;
+  white-space: nowrap;
+  display: flex;
+}
+
+.avatar-scroll image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  margin-left: 10rpx;
+}
+
+.navigate-img {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  right: 20rpx;
+}
+
+.comment-container {
+  width: 100%;
+  background-color: white;
+  margin-top: 10rpx;
+}
+
+.comment-title {
+  display: flex;
+  font-size: 35rpx;
+  width: 730rpx;
+  margin-left: 10rpx;
+  height: 60rpx;
+  align-items: center;
+}
+
+.write-comment {
+  position: absolute;
+  right: 20rpx;
+  color: grey;
+  display: flex;
+  align-items: center;
+}
+
+.comment-title image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.comment-view {
+  width: 730rpx;
+  padding: 10rpx;
+  border-bottom: 2rpx solid #f2eeee;
+}
+
+.comment-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  font-size: 26rpx;
+  color: grey;
+}
+
+.comment-header .avatar-img {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+}
+
+.name-label {
+  margin-left: 10rpx;
+}
+
+.dt-label {
+  position: absolute;
+  right: 10rpx;
+}
+
+.comment-body {
+  margin-left: 66rpx;
+  font-size: 30rpx;
+}
+
+.order-section {
+  display: flex;
+  width: 100%;
+  height: 90rpx;
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  border-top: 2rpx solid #f2eeee;
+}
+
+.home-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 25rpx;
+  color: grey;
+}
+
+.home-box image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.forward-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1296db;
+  color: white;
+  font-size: 35rpx;
+  border-radius: 0;
+}
+
+.create-btn {
+  position: fixed;
+  bottom: 120rpx;
+  right: 20rpx;
+  width: 130rpx;
+  height: 130rpx;
+  border-radius: 65rpx;
+  font-size: 35rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

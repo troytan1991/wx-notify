@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<classPathEntry
+		location="D:\java\M2\repository\mysql\mysql-connector-java\8.0.11\mysql-connector-java-8.0.11.jar" />
+	<context id="notify" defaultModelType="flat" targetRuntime="Mybatis3Simple">
+		<property name="javaFileEncoding" value="UTF-8" />
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<jdbcConnection connectionURL="jdbc:mysql://localhost:3306/notify?useSSL=false"
+			driverClass="com.mysql.cj.jdbc.Driver" password="Pass1234" userId="notify" />
+		<javaModelGenerator targetPackage="com.troytan.notify.domain"
+			targetProject="src/main/java/">
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="com.troytan.notify.repository"
+			targetProject="src/main/resources/" />
+		<javaClientGenerator targetPackage="com.troytan.notify.repository"
+			type="XMLMAPPER" targetProject="src/main/java" />
+
+		<!-- <table tableName="TM_USER" domainObjectName="User"> -->
+		<!-- <generatedKey column="USER_ID" sqlStatement="MySql" -->
+		<!-- identity="true" /> -->
+		<!-- </table> -->
+		<!-- <table tableName="TT_COMMENT" domainObjectName="Comment"> -->
+		<!-- <generatedKey column="COMMENT_ID" sqlStatement="MySql" -->
+		<!-- identity="true" /> -->
+		<!-- </table> -->
+		<!-- <table tableName="TT_NOTIFY" domainObjectName="Notify"> -->
+		<!-- <generatedKey column="NOTIFY_ID" sqlStatement="MySql" -->
+		<!-- identity="true" /> -->
+		<!-- </table> -->
+		<!-- <table tableName="TT_GROUP_USER" domainObjectName="GroupUser"> -->
+		<!-- </table> -->
+		<table tableName="TT_CONFIRM" domainObjectName="Confirm">
+			<generatedKey column="CONFIRM_ID" sqlStatement="MySql"
+				identity="true" />
+		</table>
+		<table tableName="TR_NOTIFY_USER" domainObjectName="NotifyUser">
+		</table>
+	</context>
+</generatorConfiguration>

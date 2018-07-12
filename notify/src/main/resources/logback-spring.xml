@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!--jmxConfigurator / -->
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level
+				%logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+    <!-- 访问滚动日志 -->
+	<appender name="visitRollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/midware/logs/notify/notify_visit.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/midware/logs/notify/notify_visit.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<MaxHistory>20</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>50MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <level>ERROR</level>
+        <onMatch>DENY</onMatch>
+        <onMismatch>ACCEPT</onMismatch>
+        </filter>
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level
+				%logger{36} - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<!-- 错误日志 -->
+	<appender name="errorRollingFile"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/midware/logs/notify/notify_error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/midware/logs/notify/notify_error.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <MaxHistory>20</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>50MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <level>ERROR</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %X{USER} [%thread] %-5level
+                %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+	<logger name="com.troytan.notify" level="DEBUG" />
+
+	<!-- root -->
+	<root level="INFO">
+		<appender-ref ref="console" />
+		<appender-ref ref="visitRollingFile" />
+		<appender-ref ref="errorRollingFile" />
+	</root>
+</configuration>

@@ -1,0 +1,13 @@
+<view class='notify-wrap'>
+  <input bindinput='onTitleInput' class="title-input" placeholder='输入标题' placeholder-class="center" value='{{title}}'></input>
+  <textarea bindinput='onContentInput' class='content-area' value='{{content}}' placeholder='输入通知内容'></textarea>
+</view>
+<view class='sign-view'>
+  <text>署名:</text>
+  <input bindinput='onNameInput' value='{{nickName}}'></input>
+</view>
+<button wx:if="{{!isEdit}}" class='public-btn' bindtap='onPublishTap' type='primary'>发布</button>
+<view wx:else class='order-section'>
+  <button bindtap='onCancelTap' class='cancel-btn'>取消</button>
+  <button bindtap='onConfirmTap' class='confirm-btn' type='primary'>确认修改</button>
+</view>

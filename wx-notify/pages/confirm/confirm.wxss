@@ -1,0 +1,30 @@
+page {
+  background-color: #f2eeee;
+}
+
+.confirmer-view {
+  display: flex;
+  align-items: center;
+  width: 730rpx;
+  padding: 10rpx;
+  margin-top: 2rpx;
+  background-color: white;
+}
+
+.confirmer-view image {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 5rpx;
+}
+
+.name-txt {
+  font-size: 35rpx;
+  margin-left: 10rpx;
+}
+
+.time-txt {
+  font-size: 30rpx;
+  color: grey;
+  position: absolute;
+  right: 20rpx;
+}

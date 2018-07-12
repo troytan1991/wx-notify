@@ -1,0 +1,71 @@
+page {
+  background-color: #f2eeee;
+}
+
+.user-container {
+  width: 100%;
+  height: 400rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 400rpx;
+}
+
+.user-box {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-img {
+  height: 100rpx;
+  width: 100rpx;
+  border-radius: 50rpx;
+}
+
+.name-text {
+  color: grey;
+  font-size: 30rpx;
+}
+
+.body-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-top: 10rpx;
+  font-size: 35rpx;
+}
+
+.body-container view {
+  height: 80rpx;
+  border-bottom: 2rpx solid #f2eeee;
+  display: flex;
+  align-items: center;
+}
+
+.body-container image {
+  width: 50rpx;
+  height: 50rpx;
+  margin: 10rpx;
+}
+
+.navigate-img {
+  position: absolute;
+  right: 20rpx;
+}
+
+.opacity-btn {
+  position: absolute;
+  width: 100%;
+  height: 80rpx;
+  opacity: 0;
+  z-index: 2;
+}

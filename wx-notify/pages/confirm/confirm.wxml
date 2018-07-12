@@ -1,0 +1,5 @@
+<view class='confirmer-view' wx:for="{{confirms}}" wx:key="confirmId">
+  <image src='{{item.avatarUrl}}'></image>
+  <text class='name-txt'>{{item.nickName}}</text>
+  <text class='time-txt'>{{item.updateOn}}</text>
+</view>

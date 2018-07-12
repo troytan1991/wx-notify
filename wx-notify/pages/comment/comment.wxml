@@ -1,0 +1,6 @@
+<textarea bindinput='onContentInput' class='content-area' placeholder='请勇敢说出你的想法...' maxlength='200'>
+</textarea>
+<view class='order-section'>
+  <view bindtap='onCancelTap' class='cancel-btn'>取消</view>
+  <view bindtap='onSendTap' class='send-btn'>发送</view>
+</view>

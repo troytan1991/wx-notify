@@ -1,0 +1,4 @@
+<view class='wrap-view'>
+  <text class='welcome-label'>欢迎使用群通知助手！</text>
+  <button class='auth-btn' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">授权使用</button>
+</view>

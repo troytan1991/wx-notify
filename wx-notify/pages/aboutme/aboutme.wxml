@@ -1,0 +1,32 @@
+<view class="user-container">
+  <image class='back-img' src='/icons/background.png'></image>
+  <view class='user-box'>
+    <image class='avatar-img' src='{{userInfo.avatarUrl}}'></image>
+    <text class='name-text'>{{userInfo.nickName}}</text>
+  </view>
+</view>
+<view class='body-container'>
+  <view class='nickname-view'>
+    <image src='/icons/nickname.png'></image>
+    <text>群昵称管理</text>
+    <image class='navigate-img' src='/icons/navigate.png'></image>
+  </view>
+  <view class='setting-view'>
+    <image src='/icons/setting.png'></image>
+    <text>设置</text>
+    <image class='navigate-img' src='/icons/navigate.png'></image>
+    <button class='opacity-btn' open-type='openSetting'></button>
+  </view>
+  <view class='feedback-view'>
+    <image src='/icons/feedback.png'></image>
+    <text>意见反馈</text>
+    <image class='navigate-img' src='/icons/navigate.png'></image>
+    <button class='opacity-btn' open-type='feedback'></button>
+  </view>
+  <view class='contact-view'>
+    <image src='/icons/contact.png'></image>
+    <text>客服</text>
+    <image class='navigate-img' src='/icons/navigate.png'></image>
+    <button class='opacity-btn' open-type='contact'></button>
+  </view>
+</view>
