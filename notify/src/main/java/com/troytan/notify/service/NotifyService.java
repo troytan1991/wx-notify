@@ -20,6 +20,10 @@ public interface NotifyService {
 
     List<ConfirmDto> listConfirm(Integer notifyId);
 
-    void accessNotify(Integer notifyId);
+    boolean accessNotify(Integer notifyId);
+
+    List<NotifyDto> deleteSendNotify(Integer notifyId);
+
+    List<NotifyDto> deleteReceiveNotify(Integer notifyId);
 
 }

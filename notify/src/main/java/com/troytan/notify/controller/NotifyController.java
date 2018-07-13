@@ -3,6 +3,7 @@ package com.troytan.notify.controller;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -43,6 +44,34 @@ public class NotifyController {
     @Path("/{notifyId}")
     public Notify getNotify(@PathParam("notifyId") Integer notifyId) {
         return notifyService.getNotify(notifyId);
+    }
+
+    /**
+     * 删除发送通知
+     *
+     * @author troytan
+     * @date 2018年7月13日
+     * @param notifyId
+     * @return
+     */
+    @DELETE
+    @Path("/sendNotify/{notifyId}")
+    public List<NotifyDto> deleteSendNotify(@PathParam("notifyId") Integer notifyId) {
+        return notifyService.deleteSendNotify(notifyId);
+    }
+
+    /**
+     * 删除接收通知
+     *
+     * @author troytan
+     * @date 2018年7月13日
+     * @param notifyId
+     * @return
+     */
+    @DELETE
+    @Path("/receiveNotify/{notifyId}")
+    public List<NotifyDto> deleteReceiveNotify(@PathParam("notifyId") Integer notifyId) {
+        return notifyService.deleteReceiveNotify(notifyId);
     }
 
     /**
@@ -106,8 +135,8 @@ public class NotifyController {
      */
     @PUT
     @Path("/access/{notifyId}")
-    public void accessNotify(@PathParam("notifyId") Integer notifyId) {
-        notifyService.accessNotify(notifyId);
+    public boolean accessNotify(@PathParam("notifyId") Integer notifyId) {
+        return notifyService.accessNotify(notifyId);
     }
 
     /**

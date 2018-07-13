@@ -1,6 +1,8 @@
 package com.troytan.notify.repository;
 
 import com.troytan.notify.domain.GroupUser;
+import com.troytan.notify.dto.GroupUserDto;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -44,4 +46,8 @@ public interface GroupUserMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(GroupUser record);
+
+    List<GroupUserDto> listGroupUsers(Integer userId);
+
+    void updateBatch(List<GroupUserDto> groupUsers);
 }

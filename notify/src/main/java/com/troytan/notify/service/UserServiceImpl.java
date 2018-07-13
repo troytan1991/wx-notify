@@ -1,10 +1,11 @@
 package com.troytan.notify.service;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import com.troytan.notify.domain.GroupUser;
 import com.troytan.notify.domain.Notify;
 import com.troytan.notify.domain.User;
 import com.troytan.notify.dto.GroupDto;
+import com.troytan.notify.dto.GroupUserDto;
 import com.troytan.notify.dto.OauthDto;
 import com.troytan.notify.dto.UserDto;
 import com.troytan.notify.dto.UserSessionDto;
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private static final Logger         log        = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private ThreadLocal<UserSessionDto> userHolder = new ThreadLocal<>();
-    private Map<String, UserSessionDto> map        = new HashMap<>();
+    private Map<String, UserSessionDto> map        = new ConcurrentHashMap<String, UserSessionDto>();
 
     @Autowired
     private NotifyMapper                notifyMapper;
@@ -70,11 +72,10 @@ public class UserServiceImpl implements UserService {
 
         // 进行通知-群ID关联
         Notify dbNotify = notifyMapper.selectByPrimaryKey(groupDto.getNotifyId());
-        if (dbNotify.getGroupId() != null) {
-            return groupId;
+        if (dbNotify.getGroupId() == null) {
+            dbNotify.setGroupId(groupId);
+            notifyMapper.updateByPrimaryKey(dbNotify);
         }
-        dbNotify.setGroupId(groupId);
-        notifyMapper.updateByPrimaryKey(dbNotify);
 
         // 群--用户关联
         GroupUser groupUser = groupUserMapper.selectByPrimaryKey(groupId, sessionDto.getOpenId());
@@ -165,6 +166,40 @@ public class UserServiceImpl implements UserService {
         user.setUpdateBy(getCurrentUser());
 
         userMapper.updateBySelective(user);
+    }
+
+    /**
+     * 批量更新群昵称
+     *
+     * @author troytan
+     * @date 2018年7月13日
+     * @param groupUsers
+     * @return (non-Javadoc)
+     * @see com.troytan.notify.service.UserService#updateNickname(java.util.List)
+     */
+    @Override
+    public boolean updateNickname(List<GroupUserDto> groupUsers) {
+        groupUserMapper.updateBatch(groupUsers);
+        return true;
+    }
+
+    /**
+     * 获取群昵称列表
+     *
+     * @author troytan
+     * @date 2018年7月13日
+     * @return (non-Javadoc)
+     * @see com.troytan.notify.service.UserService#getGroupUsers()
+     */
+    @Override
+    public List<GroupUserDto> getGroupUsers() {
+        return groupUserMapper.listGroupUsers(getCurrentUser());
+    }
+
+    @Override
+    public List<GroupUserDto> deleteGroupUser(GroupUserDto groupUserDto) {
+        groupUserMapper.deleteByPrimaryKey(groupUserDto.getGroupId(), groupUserDto.getOpenId());
+        return groupUserMapper.listGroupUsers(getCurrentUser());
     }
 
 }

@@ -52,4 +52,7 @@ public interface NotifyMapper {
 
     Notify selectByUserAndNotify(@Param("userId") Integer userId, @Param("notifyId") Integer notifyId);
 
+    void updateStatusByNotifyId(@Param("notifyId") Integer notifyId, @Param("status") short status,
+                                @Param("userId") Integer userId);
+
 }

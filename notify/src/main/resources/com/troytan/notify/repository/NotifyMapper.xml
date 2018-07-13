@@ -97,12 +97,12 @@
   </update>
   <!-- 根据userId获取通知对象 -->
   <select id="selectByUserAndNotify" resultMap="BaseResultMap">
-    select notify.*
+    select distinct notify.*
     from tt_notify notify
     left join tt_group_user gu on gu.GROUP_ID=notify.GROUP_ID
-    where (notify.CREATE_BY = #{userId,jdbcType=INTEGER}
-       or gu.OPEN_ID = (select OPEN_ID from tm_user where USER_ID=#{userId,jdbcType=INTEGER}))
-       and notify.NOTIFY_ID = #{notifyId, jdbcType=INTEGER}
+    where notify.NOTIFY_ID = #{notifyId, jdbcType=INTEGER} and
+       (notify.CREATE_BY=#{userId,jdbcType=INTEGER} 
+            or gu.OPEN_ID = (select OPEN_ID from tm_user where USER_ID=#{userId,jdbcType=INTEGER})) 
   </select>
 
   <resultMap id="NotifyDtoResultMap" type="com.troytan.notify.dto.NotifyDto">
@@ -124,10 +124,10 @@
 		count(distinct vi.CONFIRM_ID) as VIEW_COUNT
 	from tt_notify notify
 	left join tm_user user on user.USER_ID = notify.CREATE_BY
-	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status =1) confirm on confirm.NOTIFY_ID = notify.NOTIFY_ID
+	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status =2) confirm on confirm.NOTIFY_ID = notify.NOTIFY_ID
 	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status >=1) vi on vi.NOTIFY_ID = notify.NOTIFY_ID
 	left join tt_comment comment on comment.NOTIFY_ID = notify.NOTIFY_ID
-	where notify.CREATE_BY = #{userId,jdbcType=INTEGER}
+	where notify.CREATE_BY = #{userId,jdbcType=INTEGER} and notify.STATUS in(1,10)
 	group by notify.NOTIFY_ID
 	order by notify.CREATE_on desc
   </select>
@@ -140,12 +140,16 @@
 	from tt_notify notify
 	left join tr_notify_user nu on nu.NOTIFY_ID = notify.NOTIFY_ID
 	left join tm_user user on user.USER_ID = nu.USER_ID
-	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status =1) confirm on confirm.NOTIFY_ID = notify.NOTIFY_ID
+	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status =2) confirm on confirm.NOTIFY_ID = notify.NOTIFY_ID
 	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status >=1) vi on vi.NOTIFY_ID = notify.NOTIFY_ID
 	left join tt_comment comment on comment.NOTIFY_ID = notify.NOTIFY_ID
-	where nu.user_id = #{userId,jdbcType=INTEGER}
+	where nu.user_id = #{userId,jdbcType=INTEGER} and notify.STATUS in(1,10)
 	group by notify.NOTIFY_ID
 	order by notify.CREATE_on desc
   </select>
-  
+  <update id="updateStatusByNotifyId">
+     update tt_notify set status=#{status, jdbcType=SMALLINT},
+        UPDATE_BY=#{userId, jdbcType=INTEGER}, UPDATE_ON=now()
+     where NOTIFY_ID=#{notifyId, jdbcType=INTEGER}
+  </update>
 </mapper>

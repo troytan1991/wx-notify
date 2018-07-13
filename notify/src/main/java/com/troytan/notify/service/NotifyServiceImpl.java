@@ -2,8 +2,6 @@ package com.troytan.notify.service;
 
 import java.util.List;
 
-import javax.ws.rs.ClientErrorException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,13 +39,7 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     public Notify getNotify(Integer notifyId) {
-        // 校验访问权限
-        Integer userId = userService.getCurrentUser();
-        Notify notify = notifyMapper.selectByUserAndNotify(userId, notifyId);
-        if (notify == null) {
-            throw new ClientErrorException("您无权限访问该通知", 402);
-        }
-        return notify;
+        return notifyMapper.selectByUserAndNotify(userService.getCurrentUser(), notifyId);
     }
 
     /**
@@ -121,22 +113,26 @@ public class NotifyServiceImpl implements NotifyService {
      * @author troytan
      * @date 2018年7月11日
      * @param notifyId (non-Javadoc)
+     * @return
      * @see com.troytan.notify.service.NotifyService#accessNotify(java.lang.Integer)
      */
     @Override
     @Transactional
-    public void accessNotify(Integer notifyId) {
+    public boolean accessNotify(Integer notifyId) {
         Integer userId = userService.getCurrentUser();
+        // 校验是否可以访问
         Notify notify = notifyMapper.selectByUserAndNotify(userId, notifyId);
         if (notify == null) {
-            // tr_notify_user表新增关联记录
-            NotifyUser notifyUser = notifyUserMapper.selectByPrimaryKey(notifyId, userId);
-            if (notifyUser == null) {
-                notifyUser = new NotifyUser();
-                notifyUser.setNotifyId(notifyId);
-                notifyUser.setUserId(userId);
-                notifyUserMapper.insert(notifyUser);
-            }
+            return false;
+        }
+
+        // tr_notify_user表新增关联记录
+        NotifyUser notifyUser = notifyUserMapper.selectByPrimaryKey(notifyId, userId);
+        if (notifyUser == null) {
+            notifyUser = new NotifyUser();
+            notifyUser.setNotifyId(notifyId);
+            notifyUser.setUserId(userId);
+            notifyUserMapper.insert(notifyUser);
         }
         // tt_confirm表添加浏览记录
         Confirm confirm = confirmMapper.selectByUserAndNotify(userId, notifyId);
@@ -147,6 +143,22 @@ public class NotifyServiceImpl implements NotifyService {
             confirm.setStatus(Constant.CONFIRM_STATUS_VIEW);
             confirmMapper.insert(confirm);
         }
+
+        return true;
+    }
+
+    @Override
+    public List<NotifyDto> deleteSendNotify(Integer notifyId) {
+        // 更新通知状态为0
+        notifyMapper.updateStatusByNotifyId(notifyId, Constant.NOTIFY_STATUS_DISABLE, userService.getCurrentUser());
+        return notifyMapper.listSendNotifyByUserId(userService.getCurrentUser());
+    }
+
+    @Override
+    public List<NotifyDto> deleteReceiveNotify(Integer notifyId) {
+        // 删除tr_notify_user表记录
+        notifyUserMapper.deleteByPrimaryKey(notifyId, userService.getCurrentUser());
+        return notifyMapper.listReceiveNotifyByUserId(userService.getCurrentUser());
     }
 
 }

@@ -67,4 +67,24 @@
     select GROUP_ID, OPEN_ID, NICKNAME, STATUS, CREATE_BY, CREATE_ON, UPDATE_BY, UPDATE_ON
     from tt_group_user
   </select>
+  
+  <resultMap id="GroupUserDtoResultMap" type="com.troytan.notify.dto.GroupUserDto" >
+    <id column="GROUP_ID" jdbcType="VARCHAR" property="groupId" />
+    <id column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
+    <result column="NICKNAME" jdbcType="VARCHAR" property="nickname" />
+  </resultMap>
+  <select id="listGroupUsers" resultMap="GroupUserDtoResultMap">
+    select gu.GROUP_ID,gu.OPEN_ID, ifnull(gu.NICKNAME,user.NICKNAME) as NICKNAME 
+	from tt_group_user gu
+	left join tm_user user on user.OPEN_ID = gu.OPEN_ID
+	where gu.STATUS=1 and  user.USER_ID = #{userId,jdbcType=INTEGER}
+  </select>
+  <update id="updateBatch" parameterType="java.util.List">
+    update tt_group_user
+    set NICKNAME = case 
+    <foreach collection="list" item="item" >
+        when GROUP_ID = #{item.groupId} and OPEN_ID=#{item.openId} then #{item.nickname,jdbcType=VARCHAR}
+    </foreach>
+    end
+  </update>
 </mapper>
