@@ -47,6 +47,15 @@ page {
   margin-left: 100rpx;
 }
 
+.warn-view {
+  width: 730rpx;
+  text-align: center;
+  margin-top: 50rpx;
+  padding: 10rpx;
+  font-size: 30rpx;
+  background-color: #1296db;
+}
+
 .public-btn {
   position: fixed;
   bottom: 20rpx;

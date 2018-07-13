@@ -1,0 +1,18 @@
+<view class='warn-view'>温馨提示:群名为空表示你已退出该群，可以点击删除解除关联</view>
+<view class='title-view'>
+  <text class='group-title'>群名</text>
+  <text class='nickname-title'>昵称</text>
+</view>
+<view class='groupUser-wrap'>
+  <view wx:for="{{groupUsers}}" wx:key="id" class='groupUser-item'>
+    <open-data class="group" type="groupName" open-gid="{{item.groupId}}"></open-data>
+    <input  bindinput='onNameInput' data-id='{{index}}' class='name' maxlength='10' value='{{item.nickname}}'></input>
+    <view bindtap='onDeleteTap' data-item="{{item}}" class='delete-box'>
+      <image src='/icons/delete.png'></image>
+    </view>
+  </view>
+</view>
+<view class='order-section'>
+  <button bindtap='onCancelTap' class='cancel-btn'>取消</button>
+  <button bindtap='onConfirmTap' class='confirm-btn' type='primary'>保存</button>
+</view>

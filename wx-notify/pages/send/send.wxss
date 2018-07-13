@@ -2,6 +2,22 @@ page {
   background-color: #f2eeee;
 }
 
+.nodata-view {
+  width: 100%;
+  color: grey;
+  text-align: center;
+  font-size: 27rpx;
+  line-height: 850rpx;
+}
+
+.nodata-view image {
+  height: 450rpx;
+  width: 300rpx;
+  position: absolute;
+  bottom: 160rpx;
+  right: 80rpx;
+}
+
 .notify-view {
   display: flex;
   flex-direction: column;
@@ -58,11 +74,17 @@ page {
 }
 
 .oper-view {
-  margin-left: 350rpx;
+  position: absolute;
+  right: 10rpx;
+  display: flex;
+  width: 160rpx;
 }
 
-.delete-img {
-  margin-left: 40rpx;
+.oper-view view {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .create-btn {
@@ -76,4 +98,13 @@ page {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.bottom-text {
+  margin-top: 20rpx;
+  font-size: 30rpx;
+  color: grey;
+  width: 100%;
+  text-align: center;
+  height: 80rpx;
 }

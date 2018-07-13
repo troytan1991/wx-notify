@@ -1,10 +1,13 @@
 var root = "https://troytan1991.club:8081/notify/rest"; //remote
-// var root = "http://localhost:8080/noitfy/rest"; //local
+// var root = "http://localhost:8081/notify/rest"; //local
 var config = {
   //user
   loginUrl: `${root}/user/login`,
   updateUserUrl: `${root}/user`,
   registerGroupUrl: `${root}/user/group`,
+  getGroupUsersUrl: `${root}/user/groupUsers`,
+  updateGroupUsersUrl: `${root}/user/groupUsers`,
+  deleteGroupUserUrl: `${root}/user/groupUser`,
 
   //notify
   getNotifyUrl: `${root}/notify/`,
@@ -16,6 +19,8 @@ var config = {
   getConfirmsUrl: `${root}/notify/confirms/`,
   getConfirmStatusUrl: `${root}/notify/confirmStatus/`,
   accessNotifyUrl: `${root}/notify/access/`,
+  deleteSendNotifyUrl: `${root}/notify/sendNotify/`,
+  deleteReceiveNotifyUrl: `${root}/notify/receiveNotify/`,
 
   //comment
   getCommentsUrl: `${root}/comment/comments/`,
@@ -41,7 +46,6 @@ var config = {
             var msg = ""
             if (res.statusCode == 401) {
               //授权失败，则重新登录
-              console.log("重新登录1")
               wx.login({
                 success: res => {
                   wx.request({
@@ -61,6 +65,7 @@ var config = {
                   })
                 }
               })
+              return
             } else if (res.statusCode == 500) {
               msg = "服务器内部错误"
             } else {
@@ -82,7 +87,6 @@ var config = {
       },
       fail: function() {
         //获取失败，则重新登录
-        console.log("重新登录2")
         wx.login({
           success: res => {
             wx.request({

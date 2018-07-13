@@ -1,4 +1,4 @@
-<scroll-view scroll-y="true" class='main-scoll'>
+<scroll-view scroll-y="true" class='main-scoll' style="height:{{scrollHeight}}px">
   <view class='notify-container'>
     <text class='title-text'>{{notify.title}}</text>
     <text class='content-text'>{{notify.content}}</text>
@@ -24,14 +24,20 @@
         <image src='/icons/write.png'></image>
       </view>
     </view>
-    <view class='comment-view' wx:for="{{comments}}" wx:key="commentId">
-      <view class='comment-header'>
-        <image class='avatar-img' src='{{item.avatarUrl}}'></image>
-        <text class='name-label'>{{item.nickName}}</text>
-        <text class='dt-label'>{{item.createOn}}</text>
-      </view>
-      <text class='comment-body'>{{item.content}}</text>
+    <view class='no-comment' wx:if="{{comments.length==0}}">
+      <image src='/icons/comment.png'></image>
+      <text>还没人留言，赶紧来占座吧</text>
     </view>
+    <block wx:else>
+      <view class='comment-view' wx:for="{{comments}}" wx:key="commentId">
+        <view class='comment-header'>
+          <image class='avatar-img' src='{{item.avatarUrl}}'></image>
+          <text class='name-label'>{{item.nickName}}</text>
+          <text class='dt-label'>{{item.createOn}}</text>
+        </view>
+        <text class='comment-body'>{{item.content}}</text>
+      </view>
+    </block>
   </view>
 </scroll-view>
 <view class="order-section">

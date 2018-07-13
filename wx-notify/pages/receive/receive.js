@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    notifies: []
+    notifies: null
   },
   onContentTap: function(e) {
 
@@ -18,18 +18,29 @@ Page({
       url: '/pages/publish/publish',
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
+  onDeleteTap: function(e) {
+    var that = this,
+      notifyId = e.currentTarget.dataset.id
+    wx.showModal({
+      title: '提示',
+      content: '确认要删除该项吗?',
+      success: res => {
+        if (res.confirm) {
+          config.request({
+            url: config.deleteReceiveNotifyUrl + notifyId,
+            method: 'DELETE',
+            success: res => {
+              wx.showToast({
+                title: '成功删除',
+              })
+              that.setData({
+                notifies: res.data
+              })
+            }
+          })
+        }
+      }
+    })
   },
 
   /**
@@ -37,7 +48,6 @@ Page({
    */
   onShow: function() {
     var that = this
-    console.log("onShow")
     config.request({
       url: config.getReceiveNotifiesUrl,
       success: function(res) {
@@ -47,39 +57,4 @@ Page({
       }
     })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
-  }
 })

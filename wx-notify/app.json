@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/send/send",
+    "pages/groupUser/groupUser",
     "pages/comment/comment",
     "pages/confirm/confirm",
     "pages/publish/publish",
@@ -14,7 +15,8 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#1296db",
     "navigationBarTitleText": "群通知助手",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f2eeee"
   },
   "tabBar": {
     "list": [

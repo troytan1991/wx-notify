@@ -31,7 +31,6 @@ Page({
     })
   },
   onConfirmTap: function() {
-    console.log("123")
     if (!this.validateNotify()) {
       return
     }
@@ -42,7 +41,8 @@ Page({
         title: this.data.title,
         content: this.data.content,
         name: this.data.nickName,
-        status: 1
+        status: 1,
+        notifyId: this.data.notifyId
       },
       success: function() {
         wx.showToast({
@@ -68,7 +68,6 @@ Page({
         status: 1
       },
       success: function(res) {
-
         wx.showModal({
           title: '发布成功',
           showCancel: false,
@@ -105,7 +104,6 @@ Page({
         icon: 'none'
       })
     }
-    console.log(flag)
     return flag;
   },
   /**
@@ -119,7 +117,8 @@ Page({
         isEdit: true,
         title: notify.title,
         content: notify.content,
-        nickName: notify.nickName
+        nickName: notify.nickName,
+        notifyId: notify.notifyId
       })
     } else {
       this.setData({

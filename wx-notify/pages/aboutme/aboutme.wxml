@@ -6,7 +6,7 @@
   </view>
 </view>
 <view class='body-container'>
-  <view class='nickname-view'>
+  <view class='nickname-view' bindtap='onNicknameTap'>
     <image src='/icons/nickname.png'></image>
     <text>群昵称管理</text>
     <image class='navigate-img' src='/icons/navigate.png'></image>

@@ -6,6 +6,7 @@
   <text>署名:</text>
   <input bindinput='onNameInput' value='{{nickName}}'></input>
 </view>
+<view class='warn-view'>温馨提示:发布的消息仅单群可见，即首次分享群的群成员才有权限访问。</view>
 <button wx:if="{{!isEdit}}" class='public-btn' bindtap='onPublishTap' type='primary'>发布</button>
 <view wx:else class='order-section'>
   <button bindtap='onCancelTap' class='cancel-btn'>取消</button>

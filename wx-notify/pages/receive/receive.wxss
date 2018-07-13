@@ -2,6 +2,22 @@ page {
   background-color: #f2eeee;
 }
 
+.nodata-view {
+  width: 100%;
+  color: grey;
+  text-align: center;
+  font-size: 27rpx;
+  line-height: 850rpx;
+}
+
+.nodata-view image {
+  height: 450rpx;
+  width: 300rpx;
+  position: absolute;
+  bottom: 160rpx;
+  right: 80rpx;
+}
+
 .notify-view {
   display: flex;
   flex-direction: column;
@@ -53,9 +69,10 @@ page {
   border-radius: 20rpx;
 }
 
-.delete-img {
+.delete-box {
   position: absolute;
   right: 20rpx;
+  width: 90rpx;
 }
 
 .create-btn {
@@ -69,4 +86,13 @@ page {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.bottom-text {
+  margin-top: 20rpx;
+  font-size: 30rpx;
+  color: grey;
+  width: 100%;
+  text-align: center;
+  height: 80rpx;
 }

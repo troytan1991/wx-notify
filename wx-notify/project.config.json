@@ -39,12 +39,12 @@
 					"id": 0,
 					"name": "转发",
 					"pathName": "pages/notify/notify",
-					"query": "notifyId=1",
+					"query": "notifyId=5",
 					"scene": "1044",
 					"shareInfo": {
-						"groupName": "测试模拟群1",
-						"shareName": "WvCEu7CNmRF934YnHlrZWmtN2EYR78tOfrk6Ai0CqNY@cr4dev",
-						"shareKey": "zyDu0KKVSXZW1fSr7xjUmK6yzWGSDYDtawkqE3bxkmRdxSkInUTsqS6Sr9-ZBNZ4pImT1NhMJea54FYuCySNTw~~"
+						"groupName": "测试模拟群2",
+						"shareName": "WvCEu7CNmRF934YnHlrZWhf2EElUMUUapTrNRjk3byU@cr4dev",
+						"shareKey": "tVTZQrIgkO8PBrX53kPmXQdsTOpYFNXSY4naKZqtizQJpThQwbsaElv0RVzoWlw1ABjceCnZy62UsWD8Ai2G8Q~~"
 					}
 				}
 			]

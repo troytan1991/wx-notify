@@ -1,4 +1,8 @@
-<view class='wrap-view'>
+<view wx:if="{{notifies.length == 0}}" class='nodata-view'>
+  <text>还没有接收任何消息额，点击右下角"发布"按钮创建吧</text>
+  <image src='/icons/arrow.png'></image>
+</view>
+<view wx:elif="{{notifies.length > 0}}" class='wrap-view'>
   <view wx:for="{{notifies}}" wx:key="notifyId" class='notify-view'>
     <text class='time-text'>{{item.sendOn}}</text>
     <text bindtap='onContentTap' data-id="{{item.notifyId}}" class='title-text'>{{item.title}}</text>
@@ -12,8 +16,13 @@
       <text>{{item.commentCount}}</text>
       <image class='confirm-img' src='/icons/confirm.png' />
       <text>{{item.confirmCount}}</text>
-      <image class='delete-img' src='/icons/delete.png'></image>
+      <view bindtap='onDeleteTap' data-id='{{item.notifyId}}' class='delete-box'>
+        <image src='/icons/delete.png'></image>
+      </view>
     </view>
+  </view>
+  <view class='bottom-text'>
+    ---- 没有更多消息啦,我们是有底线的 ----
   </view>
 </view>
 <button type='primary' class='create-btn' bindtap='onCreateTap'>发布</button>
