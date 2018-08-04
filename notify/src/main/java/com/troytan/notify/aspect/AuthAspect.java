@@ -3,6 +3,7 @@ package com.troytan.notify.aspect;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ClientErrorException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class AuthAspect {
     public void checkRequest() {
         // 生产用
         String sessionId = request.getParameter("sessionId");
+        if (StringUtils.isBlank(sessionId)) {
+            throw new ClientErrorException(401);
+        }
         UserSessionDto user = userService.checkSessionId(sessionId);
         if (user == null) {
             throw new ClientErrorException(401);

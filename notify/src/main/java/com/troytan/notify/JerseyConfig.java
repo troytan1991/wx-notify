@@ -6,6 +6,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.troytan.notify.controller.CmzyController;
 import com.troytan.notify.controller.CommentController;
 import com.troytan.notify.controller.NotifyController;
 import com.troytan.notify.controller.UserController;
@@ -19,6 +20,7 @@ public class JerseyConfig extends ResourceConfig {
         register(CommentController.class);
         register(NotifyController.class);
         register(UserController.class);
+        register(CmzyController.class);
 
         register(JacksonJaxbJsonProvider.class);
         register(JacksonObjectMapperProvider.class);

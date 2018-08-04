@@ -1,10 +1,12 @@
 package com.troytan.notify.dto;
 
+import java.util.Date;
+
 public class ConfirmDto {
 
     private String avatarUrl;
     private String nickName;
-    private String updateOn;
+    private Date   updateOn;
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -22,11 +24,11 @@ public class ConfirmDto {
         this.nickName = nickName;
     }
 
-    public String getUpdateOn() {
+    public Date getUpdateOn() {
         return updateOn;
     }
 
-    public void setUpdateOn(String updateOn) {
+    public void setUpdateOn(Date updateOn) {
         this.updateOn = updateOn;
     }
 

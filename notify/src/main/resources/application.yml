@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: dev
+  datasource:
+    initial-size: 5
+    max-active: 20
     
 pagehelper:
   autoDialect: true
