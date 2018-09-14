@@ -2,6 +2,8 @@ package com.troytan.notify.dto;
 
 import java.util.Date;
 
+import com.troytan.notify.util.StringUtils;
+
 public class NotifyDto {
 
     private Integer notifyId;
@@ -23,7 +25,7 @@ public class NotifyDto {
     }
 
     public String getNickName() {
-        return nickName;
+        return StringUtils.base64Decode(nickName);
     }
 
     public void setNickName(String nickName) {

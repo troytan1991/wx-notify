@@ -15,6 +15,7 @@ import com.troytan.notify.dto.NotifyDto;
 import com.troytan.notify.repository.ConfirmMapper;
 import com.troytan.notify.repository.NotifyMapper;
 import com.troytan.notify.repository.NotifyUserMapper;
+import com.troytan.notify.util.StringUtils;
 
 @Service
 public class NotifyServiceImpl implements NotifyService {
@@ -55,6 +56,7 @@ public class NotifyServiceImpl implements NotifyService {
     @Transactional
     public Notify updateNotify(Notify notify) {
         notify.setUpdateBy(userService.getCurrentUser());
+        notify.setName(StringUtils.base64Encode(notify.getName()));
         notifyMapper.updateBySelective(notify);
         return notify;
     }
@@ -98,6 +100,7 @@ public class NotifyServiceImpl implements NotifyService {
     @Transactional
     public Notify publishNotify(Notify notify) {
         notify.setCreateBy(userService.getCurrentUser());
+        notify.setName(StringUtils.base64Encode(notify.getName()));
         notifyMapper.insert(notify);
         return notify;
     }

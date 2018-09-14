@@ -101,7 +101,8 @@
     from tt_notify notify
     left join tt_group_user gu on gu.GROUP_ID=notify.GROUP_ID
     where notify.NOTIFY_ID = #{notifyId, jdbcType=INTEGER} and
-       (notify.CREATE_BY=#{userId,jdbcType=INTEGER} 
+       (notify.SCOPE=0 
+            or notify.OWNER=#{userId,jdbcType=INTEGER} 
             or gu.OPEN_ID = (select OPEN_ID from tm_user where USER_ID=#{userId,jdbcType=INTEGER})) 
   </select>
 
@@ -127,7 +128,7 @@
 	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status =2) confirm on confirm.NOTIFY_ID = notify.NOTIFY_ID
 	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status >=1) vi on vi.NOTIFY_ID = notify.NOTIFY_ID
 	left join tt_comment comment on comment.NOTIFY_ID = notify.NOTIFY_ID
-	where notify.CREATE_BY = #{userId,jdbcType=INTEGER} and notify.STATUS in(1,10)
+	where notify.OWNER = #{userId,jdbcType=INTEGER} and notify.STATUS in(1,10)
 	group by notify.NOTIFY_ID
 	order by notify.CREATE_on desc
   </select>

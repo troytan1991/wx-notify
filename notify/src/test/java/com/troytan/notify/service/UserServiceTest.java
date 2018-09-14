@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.troytan.notify.manager.CmzyManager;
@@ -18,6 +19,7 @@ public class UserServiceTest {
     private CmzyManager cmzyManager;
 
     @Test
+    @Rollback(false)
     public void registerGroupTest() {
         cmzyManager.updateNews();
     }

@@ -29,6 +29,7 @@ import com.troytan.notify.repository.NotifyMapper;
 import com.troytan.notify.repository.UserMapper;
 import com.troytan.notify.util.AESUtils;
 import com.troytan.notify.util.SHAUtils;
+import com.troytan.notify.util.StringUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -161,7 +162,7 @@ public class UserServiceImpl implements UserService {
         user.setUserId(getCurrentUser());
         user.setAvatarUrl(userDto.getAvatarUrl());
         user.setGender(userDto.getGender());
-        user.setNickname(userDto.getNickName());
+        user.setNickname(StringUtils.base64Encode(userDto.getNickName()));
         user.setProvince(userDto.getProvince());
         user.setUpdateBy(getCurrentUser());
 

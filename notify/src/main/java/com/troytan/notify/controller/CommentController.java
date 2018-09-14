@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.troytan.notify.aspect.NoAuth;
 import com.troytan.notify.domain.Comment;
 import com.troytan.notify.dto.CommentDto;
 import com.troytan.notify.service.CommentService;
@@ -52,6 +53,7 @@ public class CommentController {
      */
     @GET
     @Path("/comments/{notifyId}")
+    @NoAuth
     public List<CommentDto> getComments(@PathParam("notifyId") Integer notifyId) {
         return commentService.listComment(notifyId);
     }

@@ -2,6 +2,8 @@ package com.troytan.notify.dto;
 
 import java.util.Date;
 
+import com.troytan.notify.util.StringUtils;
+
 public class ConfirmDto {
 
     private String avatarUrl;
@@ -17,7 +19,7 @@ public class ConfirmDto {
     }
 
     public String getNickName() {
-        return nickName;
+        return StringUtils.base64Decode(nickName);
     }
 
     public void setNickName(String nickName) {
