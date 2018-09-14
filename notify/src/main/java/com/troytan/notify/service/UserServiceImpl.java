@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 群--用户关联
-        GroupUser groupUser = groupUserMapper.selectByPrimaryKey(groupId, sessionDto.getOpenId());
+        GroupUser groupUser = groupUserMapper.selectByGroupAndOpenId(groupId, sessionDto.getOpenId());
         if (groupUser == null) {
             groupUser = new GroupUser();
             groupUser.setGroupId(groupId);
@@ -194,13 +194,28 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<GroupUserDto> getGroupUsers() {
-        return groupUserMapper.listGroupUsers(getCurrentUser());
+        return decodeName(groupUserMapper.listGroupUsers(getCurrentUser()));
     }
 
     @Override
     public List<GroupUserDto> deleteGroupUser(GroupUserDto groupUserDto) {
-        groupUserMapper.deleteByPrimaryKey(groupUserDto.getGroupId(), groupUserDto.getOpenId());
-        return groupUserMapper.listGroupUsers(getCurrentUser());
+        groupUserMapper.deleteByPrimaryKey(groupUserDto.getGroupUserId());
+        return decodeName(groupUserMapper.listGroupUsers(getCurrentUser()));
+    }
+
+    /**
+     * 将nickname base64解码
+     *
+     * @author troytan
+     * @date 2018年9月14日
+     * @param list
+     * @return
+     */
+    private List<GroupUserDto> decodeName(List<GroupUserDto> list) {
+        for (GroupUserDto groupUserDto : list) {
+            groupUserDto.setNickname(StringUtils.base64Decode(groupUserDto.getNickname()));
+        }
+        return list;
     }
 
 }

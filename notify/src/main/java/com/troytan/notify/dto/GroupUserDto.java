@@ -2,9 +2,10 @@ package com.troytan.notify.dto;
 
 public class GroupUserDto {
 
-    private String groupId;
-    private String openId;
-    private String nickname;
+    private Integer groupUserId;
+    private String  groupId;
+    private String  openId;
+    private String  nickname;
 
     public String getGroupId() {
         return groupId;
@@ -28,6 +29,14 @@ public class GroupUserDto {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public Integer getGroupUserId() {
+        return groupUserId;
+    }
+
+    public void setGroupUserId(Integer groupUserId) {
+        this.groupUserId = groupUserId;
     }
 
 }

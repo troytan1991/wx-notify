@@ -2,8 +2,6 @@ package com.troytan.notify.domain;
 
 import java.util.Date;
 
-import com.troytan.notify.util.StringUtils;
-
 public class Notify {
 
     /**
@@ -163,7 +161,7 @@ public class Notify {
      * @mbg.generated
      */
     public String getName() {
-        return StringUtils.base64Decode(name);
+        return name;
     }
 
     /**

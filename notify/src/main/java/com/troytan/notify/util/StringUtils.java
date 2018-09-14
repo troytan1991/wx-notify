@@ -30,7 +30,7 @@ public class StringUtils {
     }
 
     public static void main(String[] args) {
-        String name = base64Encode("troytan");
+        String name = base64Encode("他那");
         System.out.println(name);
         System.out.println(base64Decode(name));
     }

@@ -56,7 +56,6 @@ public class NotifyServiceImpl implements NotifyService {
     @Transactional
     public Notify updateNotify(Notify notify) {
         notify.setUpdateBy(userService.getCurrentUser());
-        notify.setName(StringUtils.base64Encode(notify.getName()));
         notifyMapper.updateBySelective(notify);
         return notify;
     }
@@ -71,7 +70,7 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     public List<NotifyDto> listSendNotify() {
-        return notifyMapper.listSendNotifyByUserId(userService.getCurrentUser());
+        return decodeName(notifyMapper.listSendNotifyByUserId(userService.getCurrentUser()));
     }
 
     /**
@@ -99,8 +98,8 @@ public class NotifyServiceImpl implements NotifyService {
     @Override
     @Transactional
     public Notify publishNotify(Notify notify) {
+        notify.setOwner(userService.getCurrentUser());
         notify.setCreateBy(userService.getCurrentUser());
-        notify.setName(StringUtils.base64Encode(notify.getName()));
         notifyMapper.insert(notify);
         return notify;
     }
@@ -154,14 +153,30 @@ public class NotifyServiceImpl implements NotifyService {
     public List<NotifyDto> deleteSendNotify(Integer notifyId) {
         // 更新通知状态为0
         notifyMapper.updateStatusByNotifyId(notifyId, Constant.NOTIFY_STATUS_DISABLE, userService.getCurrentUser());
-        return notifyMapper.listSendNotifyByUserId(userService.getCurrentUser());
+        return decodeName(notifyMapper.listSendNotifyByUserId(userService.getCurrentUser()));
     }
 
     @Override
     public List<NotifyDto> deleteReceiveNotify(Integer notifyId) {
         // 删除tr_notify_user表记录
         notifyUserMapper.deleteByPrimaryKey(notifyId, userService.getCurrentUser());
-        return notifyMapper.listReceiveNotifyByUserId(userService.getCurrentUser());
+        return decodeName(notifyMapper.listReceiveNotifyByUserId(userService.getCurrentUser()));
+    }
+
+    /**
+     * base64解码name
+     *
+     * @author troytan
+     * @date 2018年9月14日
+     * @param list
+     * @return
+     */
+    private List<NotifyDto> decodeName(List<NotifyDto> list) {
+        for (NotifyDto notifyDto : list) {
+            notifyDto.setName(StringUtils.base64Decode(notifyDto.getName()));
+        }
+
+        return list;
     }
 
 }

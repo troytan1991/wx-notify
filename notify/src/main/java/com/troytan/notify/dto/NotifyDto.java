@@ -9,12 +9,14 @@ public class NotifyDto {
     private Integer notifyId;
     private String  title;
     private String  content;
+    private String  name;
     private Date    sendOn;
     private Integer confirmCount;
     private Integer viewCount;
     private Integer CommentCount;
     private String  avatarUrl;
     private String  nickName;
+    private Short   scope;
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -86,6 +88,22 @@ public class NotifyDto {
 
     public void setCommentCount(Integer commentCount) {
         CommentCount = commentCount;
+    }
+
+    public Short getScope() {
+        return scope;
+    }
+
+    public void setScope(Short scope) {
+        this.scope = scope;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

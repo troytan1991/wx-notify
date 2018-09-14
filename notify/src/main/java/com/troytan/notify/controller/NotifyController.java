@@ -20,6 +20,7 @@ import com.troytan.notify.dto.ConfirmDto;
 import com.troytan.notify.dto.NotifyDto;
 import com.troytan.notify.service.ConfirmService;
 import com.troytan.notify.service.NotifyService;
+import com.troytan.notify.util.StringUtils;
 
 @Controller
 @Path("/notify")
@@ -43,7 +44,9 @@ public class NotifyController {
     @GET
     @Path("/{notifyId}")
     public Notify getNotify(@PathParam("notifyId") Integer notifyId) {
-        return notifyService.getNotify(notifyId);
+        Notify notify = notifyService.getNotify(notifyId);
+        notify.setName(StringUtils.base64Decode(notify.getName()));
+        return notify;
     }
 
     /**

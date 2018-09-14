@@ -39,9 +39,9 @@
       STATUS, GROUP_ID, CREATE_BY, 
       CREATE_ON, UPDATE_BY, UPDATE_ON, 
       SCOPE, OWNER)
-    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, to_base64(#{name,jdbcType=VARCHAR}), 
       #{status,jdbcType=SMALLINT}, #{groupId,jdbcType=VARCHAR}, #{createBy,jdbcType=INTEGER}, 
-      #{createOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{updateOn,jdbcType=TIMESTAMP}, 
+      now(), #{updateBy,jdbcType=INTEGER}, #{updateOn,jdbcType=TIMESTAMP}, 
       #{scope,jdbcType=SMALLINT}, #{owner,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.troytan.notify.domain.Notify">
@@ -92,10 +92,13 @@
 	           CONTENT = #{content,jdbcType=VARCHAR},
 	      </if>
 	      <if test="name != null">
-	           NAME = #{name,jdbcType=VARCHAR},
+	           NAME = to_base64(#{name,jdbcType=VARCHAR}),
 	      </if>
 	      <if test="status != null">
 	           STATUS = #{status,jdbcType=SMALLINT},
+	      </if>
+	      <if test="scope != null">
+	           SCOPE = #{scope,jdbcType=SMALLINT},
 	      </if>
 	      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
 	      UPDATE_ON = now()
@@ -116,16 +119,19 @@
     <id column="NOTIFY_ID" jdbcType="INTEGER" property="notifyId" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="CREATE_ON" jdbcType="TIMESTAMP" property="sendOn" />
     <result column="AVATAR_URL" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="NICKNAME" jdbcType="VARCHAR" property="nickName" />
     <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
     <result column="CONFIRM_COUNT" jdbcType="INTEGER" property="confirmCount" />
     <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount" />
+    <result column="SCOPE" jdbcType="SMALLINT" property="scope" />
   </resultMap>
   <!-- 获取发送列表 -->
   <select id="listSendNotifyByUserId" parameterType="java.lang.Integer" resultMap="NotifyDtoResultMap">
-    select notify.NOTIFY_ID,notify.TITLE,notify.CONTENT,notify.CREATE_ON,user.AVATAR_URL,user.NICKNAME,
+    select notify.NOTIFY_ID,notify.TITLE,notify.CONTENT,notify.NAME as NAME,notify.CREATE_ON,notify.SCOPE,
+        user.AVATAR_URL,user.NICKNAME,
 		count(distinct comment.COMMENT_ID) as COMMENT_COUNT, 
 		count(distinct confirm.CONFIRM_ID) as CONFIRM_COUNT,
 		count(distinct vi.CONFIRM_ID) as VIEW_COUNT
