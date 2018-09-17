@@ -152,7 +152,7 @@
 		count(distinct vi.CONFIRM_ID) as view_count
 	from tt_notify notify
 	left join tr_notify_user nu on nu.NOTIFY_ID = notify.NOTIFY_ID
-	left join tm_user user on user.USER_ID = nu.USER_ID
+	left join tm_user user on user.USER_ID = notify.CREATE_BY
 	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status =2) confirm on confirm.NOTIFY_ID = notify.NOTIFY_ID
 	left join (select CONFIRM_ID,NOTIFY_ID from tt_confirm where status &gt;=1) vi on vi.NOTIFY_ID = notify.NOTIFY_ID
 	left join tt_comment comment on comment.NOTIFY_ID = notify.NOTIFY_ID
