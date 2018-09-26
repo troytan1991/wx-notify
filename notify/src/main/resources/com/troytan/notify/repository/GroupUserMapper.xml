@@ -104,7 +104,7 @@
     select GROUP_USER_ID, NICKNAME, STATUS, CREATE_BY, CREATE_ON, UPDATE_BY, UPDATE_ON, 
         GROUP_ID, OPEN_ID
     from tt_group_user
-    where GROUP_ID = #{item.groupId,jdbcType=VARCHAR} 
-        and OPEN_ID=#{item.openId,jdbcType=VARCHAR}
+    where GROUP_ID = #{groupId,jdbcType=VARCHAR} 
+        and OPEN_ID=#{openId,jdbcType=VARCHAR}
   </select>
 </mapper>
