@@ -4,6 +4,9 @@ spring:
   datasource:
     initial-size: 5
     max-active: 20
+  http.multipart:
+    max-file-size: 2Mb  
+    max-request-size: 2Mb
     
 pagehelper:
   autoDialect: true
@@ -19,6 +22,8 @@ wx:
   appId: wx4ee2806fe2087828
   appSecret: 77bc2c1819c3a276afc64e98d7b0c5e9
   oauthUrl: https://api.weixin.qq.com/sns/jscode2session
+  
+
 
 ---
 spring:
