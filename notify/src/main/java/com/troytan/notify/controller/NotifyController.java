@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.troytan.notify.domain.Notify;
 import com.troytan.notify.dto.ConfirmDto;
 import com.troytan.notify.dto.NotifyDto;
+import com.troytan.notify.dto.NotifyImageDto;
 import com.troytan.notify.service.ConfirmService;
 import com.troytan.notify.service.NotifyService;
 import com.troytan.notify.util.StringUtils;
@@ -37,8 +38,8 @@ public class NotifyController {
      * @return
      */
     @GetMapping("/{notifyId}")
-    public Notify getNotify(@PathVariable("notifyId") Integer notifyId) {
-        Notify notify = notifyService.getNotify(notifyId);
+    public NotifyImageDto getNotify(@PathVariable("notifyId") Integer notifyId) {
+        NotifyImageDto notify = notifyService.getNotify(notifyId);
         notify.setName(StringUtils.base64Decode(notify.getName()));
         return notify;
     }
@@ -102,7 +103,7 @@ public class NotifyController {
      * @return
      */
     @PostMapping
-    public Notify updateNotify(@RequestBody Notify notify) {
+    public Notify updateNotify(@RequestBody NotifyImageDto notify) {
         return notifyService.updateNotify(notify);
     }
 
@@ -115,8 +116,8 @@ public class NotifyController {
      * @return
      */
     @PutMapping
-    public Notify createNotify(@RequestBody Notify notify) {
-        return notifyService.publishNotify(notify);
+    public Notify createNotify(@RequestBody NotifyImageDto notifyDto) {
+        return notifyService.publishNotify(notifyDto);
     }
 
     /**

@@ -105,9 +105,15 @@
      where NOTIFY_ID = #{notifyId,jdbcType=INTEGER}
   </update>
   <!-- 根据userId获取通知对象 -->
-  <select id="selectByUserAndNotify" resultMap="BaseResultMap">
-    select distinct notify.*
+  <resultMap type="com.troytan.notify.dto.NotifyImageDto" id="NotifyImageResultMap" extends="BaseResultMap">
+    <collection property="imageUrls" ofType="string" javaType="list">
+        <result column="URL" />
+    </collection>
+  </resultMap>
+  <select id="selectByUserAndNotify" resultMap="NotifyImageResultMap">
+    select distinct notify.*, ni.NOTIFY_IMAGE_ID, ni.URL
     from tt_notify notify
+    left join tt_notify_image ni on ni.NOTIFY_ID = notify.NOTIFY_ID
     left join tt_group_user gu on gu.GROUP_ID=notify.GROUP_ID
     where notify.NOTIFY_ID = #{notifyId, jdbcType=INTEGER} and
        (notify.SCOPE=0 

@@ -13,7 +13,7 @@ import net.coobird.thumbnailator.Thumbnails;
 @Service
 public class FileServiceImpl implements FileService {
 
-    private final String FILE_DIR = "E:/home/nginx";
+    private final String FILE_DIR = "/home/nginx";
     private final int    MB       = 1024 * 1024;
 
     /**
@@ -45,7 +45,7 @@ public class FileServiceImpl implements FileService {
         } catch (Exception e) {
             throw new BusinessException("保存文件失败:" + filePath);
         }
-        return "http://troytan1991.club:8081" + filePath;
+        return "http://troytan1991.club" + filePath;
     }
 
 }

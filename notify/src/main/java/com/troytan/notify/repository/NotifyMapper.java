@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.troytan.notify.domain.Notify;
 import com.troytan.notify.dto.NotifyDto;
+import com.troytan.notify.dto.NotifyImageDto;
 
 public interface NotifyMapper {
 
@@ -50,7 +51,7 @@ public interface NotifyMapper {
 
     List<NotifyDto> listReceiveNotifyByUserId(Integer userId);
 
-    Notify selectByUserAndNotify(@Param("userId") Integer userId, @Param("notifyId") Integer notifyId);
+    NotifyImageDto selectByUserAndNotify(@Param("userId") Integer userId, @Param("notifyId") Integer notifyId);
 
     void updateStatusByNotifyId(@Param("notifyId") Integer notifyId, @Param("status") short status,
                                 @Param("userId") Integer userId);

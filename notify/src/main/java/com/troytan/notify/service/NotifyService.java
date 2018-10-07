@@ -4,19 +4,20 @@ import java.util.List;
 
 import com.troytan.notify.domain.Notify;
 import com.troytan.notify.dto.ConfirmDto;
+import com.troytan.notify.dto.NotifyImageDto;
 import com.troytan.notify.dto.NotifyDto;
 
 public interface NotifyService {
 
-    Notify getNotify(Integer notifyId);
+    NotifyImageDto getNotify(Integer notifyId);
 
-    Notify updateNotify(Notify notify);
+    Notify updateNotify(NotifyImageDto notify);
 
     List<NotifyDto> listSendNotify();
 
     List<NotifyDto> listReceiveNotify();
 
-    Notify publishNotify(Notify notify);
+    Notify publishNotify(NotifyImageDto notifyDto);
 
     List<ConfirmDto> listConfirm(Integer notifyId);
 

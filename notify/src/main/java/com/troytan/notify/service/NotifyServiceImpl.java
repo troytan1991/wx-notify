@@ -9,10 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.troytan.notify.constant.Constant;
 import com.troytan.notify.domain.Confirm;
 import com.troytan.notify.domain.Notify;
+import com.troytan.notify.domain.NotifyImage;
 import com.troytan.notify.domain.NotifyUser;
 import com.troytan.notify.dto.ConfirmDto;
+import com.troytan.notify.dto.NotifyImageDto;
 import com.troytan.notify.dto.NotifyDto;
 import com.troytan.notify.repository.ConfirmMapper;
+import com.troytan.notify.repository.NotifyImageMapper;
 import com.troytan.notify.repository.NotifyMapper;
 import com.troytan.notify.repository.NotifyUserMapper;
 import com.troytan.notify.util.StringUtils;
@@ -21,13 +24,15 @@ import com.troytan.notify.util.StringUtils;
 public class NotifyServiceImpl implements NotifyService {
 
     @Autowired
-    private NotifyMapper     notifyMapper;
+    private NotifyMapper      notifyMapper;
     @Autowired
-    private UserService      userService;
+    private UserService       userService;
     @Autowired
-    private ConfirmMapper    confirmMapper;
+    private ConfirmMapper     confirmMapper;
     @Autowired
-    private NotifyUserMapper notifyUserMapper;
+    private NotifyUserMapper  notifyUserMapper;
+    @Autowired
+    private NotifyImageMapper imageMapper;
 
     /**
      * 获取单个通知详情
@@ -39,7 +44,7 @@ public class NotifyServiceImpl implements NotifyService {
      * @see com.troytan.notify.service.NotifyService#getNotify(java.lang.Integer)
      */
     @Override
-    public Notify getNotify(Integer notifyId) {
+    public NotifyImageDto getNotify(Integer notifyId) {
         return notifyMapper.selectByUserAndNotify(userService.getCurrentUser(), notifyId);
     }
 
@@ -54,9 +59,21 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     @Transactional
-    public Notify updateNotify(Notify notify) {
+    public Notify updateNotify(NotifyImageDto notify) {
+        // tt_notify表
         notify.setUpdateBy(userService.getCurrentUser());
         notifyMapper.updateBySelective(notify);
+        // tt_notify_image表
+        imageMapper.deleteByNotifyId(notify.getNotifyId());
+        for (String url : notify.getImageUrls()) {
+            NotifyImage notifyImage = new NotifyImage();
+            notifyImage.setNotifyId(notify.getNotifyId());
+            notifyImage.setUrl(url);
+            notifyImage.setCreateBy(userService.getCurrentUser());
+
+            imageMapper.insert(notifyImage);
+        }
+
         return notify;
     }
 
@@ -97,11 +114,24 @@ public class NotifyServiceImpl implements NotifyService {
      */
     @Override
     @Transactional
-    public Notify publishNotify(Notify notify) {
-        notify.setOwner(userService.getCurrentUser());
-        notify.setCreateBy(userService.getCurrentUser());
-        notifyMapper.insert(notify);
-        return notify;
+    public Notify publishNotify(NotifyImageDto notifyDto) {
+        notifyDto.setOwner(userService.getCurrentUser());
+        notifyDto.setCreateBy(userService.getCurrentUser());
+
+        // tt_notify表
+        notifyMapper.insert(notifyDto);
+
+        // tt_notify_image表
+        List<String> imageUrls = notifyDto.getImageUrls();
+        for (String imageUrl : imageUrls) {
+            NotifyImage notifyImage = new NotifyImage();
+            notifyImage.setNotifyId(notifyDto.getNotifyId());
+            notifyImage.setUrl(imageUrl);
+            notifyImage.setCreateBy(notifyDto.getCreateBy());
+
+            imageMapper.insert(notifyImage);
+        }
+        return notifyDto;
     }
 
     @Override
