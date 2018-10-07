@@ -2,18 +2,15 @@ package com.troytan.notify.controller;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.troytan.notify.domain.Notify;
 import com.troytan.notify.dto.ConfirmDto;
@@ -22,10 +19,8 @@ import com.troytan.notify.service.ConfirmService;
 import com.troytan.notify.service.NotifyService;
 import com.troytan.notify.util.StringUtils;
 
-@Controller
-@Path("/notify")
-@Consumes("application/json;charset=utf-8")
-@Produces({ "application/json;charset=utf-8", MediaType.TEXT_PLAIN })
+@RestController
+@RequestMapping(path = "/notify", produces = "application/json;charset=UTF-8")
 public class NotifyController {
 
     @Autowired
@@ -41,9 +36,8 @@ public class NotifyController {
      * @param notifyId
      * @return
      */
-    @GET
-    @Path("/{notifyId}")
-    public Notify getNotify(@PathParam("notifyId") Integer notifyId) {
+    @GetMapping("/{notifyId}")
+    public Notify getNotify(@PathVariable("notifyId") Integer notifyId) {
         Notify notify = notifyService.getNotify(notifyId);
         notify.setName(StringUtils.base64Decode(notify.getName()));
         return notify;
@@ -57,9 +51,8 @@ public class NotifyController {
      * @param notifyId
      * @return
      */
-    @DELETE
-    @Path("/sendNotify/{notifyId}")
-    public List<NotifyDto> deleteSendNotify(@PathParam("notifyId") Integer notifyId) {
+    @DeleteMapping("/sendNotify/{notifyId}")
+    public List<NotifyDto> deleteSendNotify(@PathVariable("notifyId") Integer notifyId) {
         return notifyService.deleteSendNotify(notifyId);
     }
 
@@ -71,9 +64,8 @@ public class NotifyController {
      * @param notifyId
      * @return
      */
-    @DELETE
-    @Path("/receiveNotify/{notifyId}")
-    public List<NotifyDto> deleteReceiveNotify(@PathParam("notifyId") Integer notifyId) {
+    @DeleteMapping("/receiveNotify/{notifyId}")
+    public List<NotifyDto> deleteReceiveNotify(@PathVariable("notifyId") Integer notifyId) {
         return notifyService.deleteReceiveNotify(notifyId);
     }
 
@@ -84,8 +76,7 @@ public class NotifyController {
      * @date 2018年7月10日
      * @return
      */
-    @GET
-    @Path("/sendNotifies")
+    @GetMapping("/sendNotifies")
     public List<NotifyDto> getSendNotifies() {
         return notifyService.listSendNotify();
     }
@@ -97,8 +88,7 @@ public class NotifyController {
      * @date 2018年7月10日
      * @return
      */
-    @GET
-    @Path("/receiveNotifies")
+    @GetMapping("/receiveNotifies")
     public List<NotifyDto> getReceiveNotifies() {
         return notifyService.listReceiveNotify();
     }
@@ -111,8 +101,8 @@ public class NotifyController {
      * @param notify
      * @return
      */
-    @POST
-    public Notify updateNotify(Notify notify) {
+    @PostMapping
+    public Notify updateNotify(@RequestBody Notify notify) {
         return notifyService.updateNotify(notify);
     }
 
@@ -124,8 +114,8 @@ public class NotifyController {
      * @param notify
      * @return
      */
-    @PUT
-    public Notify createNotify(Notify notify) {
+    @PutMapping
+    public Notify createNotify(@RequestBody Notify notify) {
         return notifyService.publishNotify(notify);
     }
 
@@ -136,9 +126,8 @@ public class NotifyController {
      * @date 2018年7月11日
      * @param notifyId
      */
-    @PUT
-    @Path("/access/{notifyId}")
-    public boolean accessNotify(@PathParam("notifyId") Integer notifyId) {
+    @PutMapping("/access/{notifyId}")
+    public boolean accessNotify(@PathVariable("notifyId") Integer notifyId) {
         return notifyService.accessNotify(notifyId);
     }
 
@@ -149,9 +138,8 @@ public class NotifyController {
      * @date 2018年7月11日
      * @param notifyId
      */
-    @POST
-    @Path("/confirm/{notifyId}")
-    public void confirmNotify(@PathParam("notifyId") Integer notifyId) {
+    @PostMapping("/confirm/{notifyId}")
+    public void confirmNotify(@PathVariable("notifyId") Integer notifyId) {
         confirmService.confirmNotify(notifyId);
     }
 
@@ -163,15 +151,13 @@ public class NotifyController {
      * @param notifyId
      * @return
      */
-    @GET
-    @Path("/confirms/{notifyId}")
-    public List<ConfirmDto> getConfirms(@PathParam("notifyId") Integer notifyId) {
+    @GetMapping("/confirms/{notifyId}")
+    public List<ConfirmDto> getConfirms(@PathVariable("notifyId") Integer notifyId) {
         return notifyService.listConfirm(notifyId);
     }
 
-    @GET
-    @Path("/confirmStatus/{notifyId}")
-    public Short getConfirmStatus(@PathParam("notifyId") Integer notifyId) {
+    @GetMapping("/confirmStatus/{notifyId}")
+    public Short getConfirmStatus(@PathVariable("notifyId") Integer notifyId) {
         return confirmService.getConfirmStatus(notifyId);
     }
 

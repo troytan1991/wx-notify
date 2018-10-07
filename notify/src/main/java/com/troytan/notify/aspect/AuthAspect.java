@@ -1,7 +1,6 @@
 package com.troytan.notify.aspect;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.ClientErrorException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.troytan.notify.dto.UserSessionDto;
+import com.troytan.notify.exception.UnauthException;
 import com.troytan.notify.service.UserService;
 
 @Component
@@ -22,15 +22,15 @@ public class AuthAspect {
     private HttpServletRequest request;
 
     @Before("within(com.troytan.notify.controller..*) && !@annotation(com.troytan.notify.aspect.NoAuth)")
-    public void checkRequest() {
+    public void checkRequest(){
         // 生产用
         String sessionId = request.getParameter("sessionId");
         if (StringUtils.isBlank(sessionId)) {
-            throw new ClientErrorException(401);
+            throw new UnauthException("未找到sessionId");
         }
         UserSessionDto user = userService.checkSessionId(sessionId);
         if (user == null) {
-            throw new ClientErrorException(401);
+            throw new UnauthException("用户认证过期");
         }
         userService.setCurrentUser(user);
 

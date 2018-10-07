@@ -1,15 +1,15 @@
 package com.troytan.notify.manager;
 
-import javax.ws.rs.ClientErrorException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
+import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.troytan.notify.dto.OauthDto;
@@ -18,11 +18,14 @@ import com.troytan.notify.dto.OauthDto;
 public class WechatManager {
 
     @Value("${wx.appId}")
-    private String appId;
+    private String       appId;
     @Value("${wx.appSecret}")
-    private String appSecret;
+    private String       appSecret;
     @Value("${wx.oauthUrl}")
-    private String oauthUrl;
+    private String       oauthUrl;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     /**
      * 根据code请求openId与sessionKey
@@ -31,24 +34,19 @@ public class WechatManager {
      * @date 2018年7月9日
      * @param code
      * @return
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonParseException
      */
     public OauthDto requestOauth(String code) {
-        Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-        WebTarget target = client.target(oauthUrl).path("").queryParam("appid",
-                                                                       appId).queryParam("secret",
-                                                                                         appSecret).queryParam("js_code",
-                                                                                                               code).queryParam("grant_type",
-                                                                                                                                "authorization_code");
-        String response = target.request("applicayion/json;utf-8").get(String.class);
-        System.out.println(response);
-        OauthDto oauthDto = null;
-        try {
-            oauthDto = new ObjectMapper().readValue(response, OauthDto.class);
-        } catch (Exception e) {
-            throw new ClientErrorException("请求微信api错误", 400);
-        }
 
-        return oauthDto;
+        String response = restTemplate.getForObject(oauthUrl + "?appid={1}&secret={2}&js_code={3}&grant_type={4}",
+                                                    String.class, appId, appSecret, code, "authorization_code");
+        try {
+            return new ObjectMapper().readValue(response, OauthDto.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -60,12 +58,8 @@ public class WechatManager {
      * @throws Exception
      */
     public String getAccessToken() {
-        Client client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-        WebTarget target = client.target("https://api.weixin.qq.com/cgi-bin/token").path("").queryParam("appid",
-                                                                                                        appId).queryParam("secret",
-                                                                                                                          appSecret).queryParam("grant_type",
-                                                                                                                                                "client_credential");
-        String response = target.request("applicayion/json;utf-8").get(String.class);
+        String response = restTemplate.getForObject("https://api.weixin.qq.com/cgi-bin/token?appid={1}&secret={2}&grant_type={3}",
+                                                    String.class, appId, appSecret, "client_credential");
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(response);
         return jsonObject.get("access_token").getAsString();
     }

@@ -28,4 +28,9 @@ public interface UserService {
     List<GroupUserDto> getGroupUsers();
 
     List<GroupUserDto> deleteGroupUser(GroupUserDto groupUserDto);
+    
+    String cachePut(String uid);
+    String cacheGet(String uid);
+
+    UserDto getUser();
 }

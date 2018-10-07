@@ -2,26 +2,21 @@ package com.troytan.notify.controller;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.troytan.notify.domain.Comment;
 import com.troytan.notify.dto.CommentDto;
 import com.troytan.notify.service.CommentService;
 import com.troytan.notify.service.UserService;
 
-@Controller
-@Path("/comment")
-@Consumes("application/json;charset=utf-8")
-@Produces({ "application/json;charset=utf-8", MediaType.TEXT_PLAIN })
+@RestController
+@RequestMapping(path = "/comment", produces = "application/json;charset=UTF-8")
 public class CommentController {
 
     @Autowired
@@ -36,8 +31,8 @@ public class CommentController {
      * @date 2018年7月11日
      * @param comment
      */
-    @PUT
-    public void createComment(Comment comment) {
+    @PutMapping
+    public void createComment(@RequestBody Comment comment) {
         comment.setCreateBy(userService.getCurrentUser());
         commentService.createComment(comment);
     }
@@ -50,9 +45,8 @@ public class CommentController {
      * @param notifyId
      * @return
      */
-    @GET
-    @Path("/comments/{notifyId}")
-    public List<CommentDto> getComments(@PathParam("notifyId") Integer notifyId) {
+    @GetMapping("/comments/{notifyId}")
+    public List<CommentDto> getComments(@PathVariable("notifyId") Integer notifyId) {
         return commentService.listComment(notifyId);
     }
 }

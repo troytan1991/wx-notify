@@ -1,6 +1,7 @@
 package com.troytan.notify.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -216,6 +219,29 @@ public class UserServiceImpl implements UserService {
             groupUserDto.setNickname(StringUtils.base64Decode(groupUserDto.getNickname()));
         }
         return list;
+    }
+
+    @Override
+    @CachePut(value = "user", key = "'user_'+#uid")
+    public String cachePut(String uid) {
+        return Base64.getEncoder().encodeToString(uid.getBytes());
+    }
+
+    @Override
+    @Cacheable(value = "user", key = "'user_'+#uid")
+    public String cacheGet(String uid) {
+        // TODO Auto-generated method stub
+        return "无缓存";
+    }
+
+    @Override
+    public UserDto getUser() {
+        UserDto userDto = new UserDto();
+        User user = userMapper.selectByPrimaryKey(getCurrentUser());
+        userDto.setAvatarUrl(user.getAvatarUrl());
+        userDto.setNickName(StringUtils.base64Decode(user.getNickname()));
+        userDto.setGender(user.getGender());
+        return userDto;
     }
 
 }

@@ -2,17 +2,14 @@ package com.troytan.notify.controller;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
 import com.troytan.notify.aspect.NoAuth;
@@ -24,59 +21,51 @@ import com.troytan.notify.dto.DesignerDto;
 import com.troytan.notify.dto.FitmentDto;
 import com.troytan.notify.service.CmzyService;
 
-@Controller
-@Path("/cmzy")
-@Consumes("application/json;charset=utf-8")
-@Produces("application/json;charset=utf-8")
 @NoAuth
+@RestController
+@RequestMapping(path = "/cmzy", produces = "application/json;charset=UTF-8")
 public class CmzyController {
 
     @Autowired
     private CmzyService cmzyService;
 
-    @GET
-    @Path("/news")
     @NoAuth
-    public List<News> searchNews(@QueryParam("searchStr") String searchStr,
-                                 @DefaultValue("1") @QueryParam("pageNum") Integer pageNum,
-                                 @DefaultValue("10") @QueryParam("pageSize") Integer pageSize) {
+    @GetMapping("/news")
+    public List<News> searchNews(@RequestParam("searchStr") String searchStr,
+                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         Page<?> page = new Page<>(pageNum, pageSize);
         return cmzyService.searchNews(searchStr, page);
     }
-    @GET
-    @Path("/news/{mediaId}")
+
     @NoAuth
-    public News getNews(@PathParam("mediaId") String mediaId) {
-    	return cmzyService.getNews(mediaId);
+    @GetMapping("/news/{mediaId}")
+    public News getNews(@PathVariable("mediaId") String mediaId) {
+        return cmzyService.getNews(mediaId);
     }
-    
-    @GET
-    @Path("/designer")
+
     @NoAuth
-    public List<DesignerDto> getDesigners(){
-    	return cmzyService.getDesigners(); 	
+    @GetMapping("/designer")
+    public List<DesignerDto> getDesigners() {
+        return cmzyService.getDesigners();
     }
-    
-    @GET
-    @Path("/worker")
+
     @NoAuth
-    public List<Worker> getWorkers(){
-    	return cmzyService.getWorkers();
+    @GetMapping("/worker")
+    public List<Worker> getWorkers() {
+        return cmzyService.getWorkers();
     }
-    
-    @GET
-    @Path("/fitment")
+
     @NoAuth
-    public List<FitmentDto> getFitments(){
-    	return cmzyService.getFitments();
+    @GetMapping("/fitment")
+    public List<FitmentDto> getFitments() {
+        return cmzyService.getFitments();
     }
-    
-    
-    @PUT
-    @Path("/customer")
+
     @NoAuth
-    public Customer createCustomers(CustomerDto customerDto){
-    	return cmzyService.createCustomers(customerDto);
+    @PutMapping("/customer")
+    public Customer createCustomers(@RequestBody CustomerDto customerDto) {
+        return cmzyService.createCustomers(customerDto);
     }
-    
+
 }

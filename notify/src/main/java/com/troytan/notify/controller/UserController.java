@@ -3,18 +3,16 @@ package com.troytan.notify.controller;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.troytan.notify.aspect.NoAuth;
 import com.troytan.notify.dto.GroupDto;
@@ -24,16 +22,32 @@ import com.troytan.notify.dto.UserDto;
 import com.troytan.notify.manager.WechatManager;
 import com.troytan.notify.service.UserService;
 
-@Controller
-@Path("/user")
-@Consumes("application/json;charset=utf-8")
-@Produces({ "application/json;charset=utf-8", MediaType.TEXT_PLAIN })
+@RestController
+@RequestMapping(path = "/user", produces = "application/json;charset=UTF-8")
 public class UserController {
 
     @Autowired
     private UserService   userService;
     @Autowired
     private WechatManager wechatManager;
+
+    @GetMapping("/cacheGet/{uid}")
+    @NoAuth
+    public String cacheGet(@PathVariable("uid") String uid) {
+        return userService.cacheGet(uid);
+    }
+
+    @GetMapping("/cachePut/{uid}")
+    @NoAuth
+    public String cachePut(@PathVariable("uid") String uid) {
+        return userService.cachePut(uid);
+    }
+
+    @GetMapping("/persist")
+    @NoAuth
+    public String cachePersist() {
+        return "persist success";
+    }
 
     /**
      * 记录群组信息
@@ -43,9 +57,8 @@ public class UserController {
      * @param groupDto
      * @return
      */
-    @POST
-    @Path("/group")
-    public String registerGroup(GroupDto groupDto) {
+    @PostMapping("/group")
+    public String registerGroup(@RequestBody GroupDto groupDto) {
         // 获取openID与sessionKey
         // OauthDto oauthDto = wechatManager.requestOauth(groupDto.getUserCode());
 
@@ -61,10 +74,9 @@ public class UserController {
      * @return
      * @throws NoSuchAlgorithmException
      */
-    @PUT
-    @Path("/login")
+    @PutMapping("/login")
     @NoAuth
-    public String getSessionId(@QueryParam("code") String code) throws NoSuchAlgorithmException {
+    public String getSessionId(@RequestParam("code") String code) throws NoSuchAlgorithmException {
         OauthDto oauthDto = wechatManager.requestOauth(code);
 
         return userService.logUser(oauthDto);
@@ -77,9 +89,21 @@ public class UserController {
      * @date 2018年7月11日
      * @param userDto
      */
-    @POST
-    public void updateUser(UserDto userDto) {
+    @PostMapping
+    public void updateUser(@RequestBody UserDto userDto) {
         userService.updateUser(userDto);
+    }
+
+    /**
+     * 获取当前用户信息
+     *
+     * @author troytan
+     * @date 2018年10月7日
+     * @return
+     */
+    @GetMapping
+    public UserDto getUser() {
+        return userService.getUser();
     }
 
     /**
@@ -90,9 +114,8 @@ public class UserController {
      * @param groupUsers
      * @return
      */
-    @POST
-    @Path("/groupUsers")
-    public boolean updateNickname(List<GroupUserDto> groupUsers) {
+    @PostMapping("/groupUsers")
+    public boolean updateNickname(@RequestBody List<GroupUserDto> groupUsers) {
         return userService.updateNickname(groupUsers);
     }
 
@@ -103,8 +126,7 @@ public class UserController {
      * @date 2018年7月13日
      * @return
      */
-    @GET
-    @Path("/groupUsers")
+    @GetMapping("/groupUsers")
     public List<GroupUserDto> getGroupUsers() {
         return userService.getGroupUsers();
     }
@@ -117,9 +139,8 @@ public class UserController {
      * @param groupUserDto
      * @return
      */
-    @DELETE
-    @Path("/groupUser")
-    public List<GroupUserDto> deleteGroupUser(GroupUserDto groupUserDto) {
+    @DeleteMapping("/groupUser")
+    public List<GroupUserDto> deleteGroupUser(@RequestBody GroupUserDto groupUserDto) {
         return userService.deleteGroupUser(groupUserDto);
     }
 
