@@ -77,5 +77,6 @@
 	left join tt_group_user gu on 
 	   gu.GROUP_ID=(select GROUP_ID from tt_notify where NOTIFY_ID= #{notifyId,jdbcType=INTEGER}) and gu.OPEN_ID=user.OPEN_ID 
 	where notify_id = #{notifyId,jdbcType=INTEGER}
+	order by comment.CREATE_ON desc
   </select>
 </mapper>

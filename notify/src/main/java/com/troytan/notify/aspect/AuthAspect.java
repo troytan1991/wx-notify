@@ -28,7 +28,7 @@ public class AuthAspect {
         if (StringUtils.isBlank(sessionId)) {
             throw new UnauthException("未找到sessionId");
         }
-        UserSessionDto user = userService.checkSessionId(sessionId);
+        UserSessionDto user = userService.getSession(sessionId);
         if (user == null) {
             throw new UnauthException("用户认证过期");
         }

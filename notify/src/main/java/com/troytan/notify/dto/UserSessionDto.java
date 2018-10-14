@@ -1,10 +1,13 @@
 package com.troytan.notify.dto;
 
-public class UserSessionDto {
+import java.io.Serializable;
 
-    private Integer userId;
-    private String  openId;
-    private String  sessionKey;
+public class UserSessionDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    private Integer           userId;
+    private String            openId;
+    private String            sessionKey;
 
     public UserSessionDto(){
     }

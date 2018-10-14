@@ -5,8 +5,10 @@ spring:
     initial-size: 5
     max-active: 20
   http.multipart:
-    max-file-size: 2Mb  
-    max-request-size: 2Mb
+    max-file-size: 1Mb  
+    max-request-size: 1Mb
+  cache:
+    cache-names: session
     
 pagehelper:
   autoDialect: true
@@ -16,7 +18,7 @@ pagehelper:
 server:
   session.timeout: 900
   context-path: /notify/rest
-  port: 8081
+  port: 8080
   
 wx:
   appId: wx4ee2806fe2087828
@@ -42,19 +44,21 @@ spring:
     url: jdbc:mysql://10.203.102.27:3306/notify?useSSL=false
     username: notify
     password: 2wsx#EDC
+server:
+  port: 80
      
 ---
 spring:
   profiles: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.98.119.1:3306/notify?useSSL=false
+    url: jdbc:mysql://localhost:3306/notify?useSSL=false
     username: notify
     password: 2wsx#EDC
     
-server:
-  port: 8081
-  ssl:
-    key-store: classpath:troytan1991.club.pfx
-    key-store-password: 4nh0hc1eabd49
-    keyStoreType: PKCS12
+#server:
+#  port: 8081
+#  ssl:
+#    key-store: classpath:troytan1991.club.pfx
+#    key-store-password: 4nh0hc1eabd49
+#    keyStoreType: PKCS12

@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,18 +30,6 @@ public class UserController {
     @Autowired
     private WechatManager wechatManager;
 
-    @GetMapping("/cacheGet/{uid}")
-    @NoAuth
-    public String cacheGet(@PathVariable("uid") String uid) {
-        return userService.cacheGet(uid);
-    }
-
-    @GetMapping("/cachePut/{uid}")
-    @NoAuth
-    public String cachePut(@PathVariable("uid") String uid) {
-        return userService.cachePut(uid);
-    }
-
     @GetMapping("/persist")
     @NoAuth
     public String cachePersist() {
@@ -56,9 +43,10 @@ public class UserController {
      * @date 2018年7月10日
      * @param groupDto
      * @return
+     * @throws Exception 
      */
     @PostMapping("/group")
-    public String registerGroup(@RequestBody GroupDto groupDto) {
+    public String registerGroup(@RequestBody GroupDto groupDto) throws Exception {
         // 获取openID与sessionKey
         // OauthDto oauthDto = wechatManager.requestOauth(groupDto.getUserCode());
 

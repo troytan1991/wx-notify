@@ -1,12 +1,7 @@
 package com.troytan.notify.service;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +35,6 @@ public class UserServiceImpl implements UserService {
     private static final Logger         log        = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private ThreadLocal<UserSessionDto> userHolder = new ThreadLocal<>();
-    private Map<String, UserSessionDto> map        = new ConcurrentHashMap<String, UserSessionDto>();
 
     @Autowired
     private NotifyMapper                notifyMapper;
@@ -48,6 +42,8 @@ public class UserServiceImpl implements UserService {
     private GroupUserMapper             groupUserMapper;
     @Autowired
     private UserMapper                  userMapper;
+    @Autowired
+    private UserService                 userService;
 
     /**
      * 关联群组-通知，群组-用户
@@ -57,20 +53,16 @@ public class UserServiceImpl implements UserService {
      * @param oauthDto
      * @param groupDto
      * @return (non-Javadoc)
+     * @throws Exception
      * @see com.troytan.notify.service.UserService#registerGroup(com.troytan.notify.dto.OauthDto,
      * com.troytan.notify.dto.GroupDto)
      */
     @Override
     @Transactional
-    public String registerGroup(GroupDto groupDto) {
+    public String registerGroup(GroupDto groupDto) throws Exception {
         UserSessionDto sessionDto = userHolder.get();
-        String result = "";
         // 解密群ID
-        try {
-            result = AESUtils.decrypt(groupDto.getEncryptedData(), groupDto.getIv(), sessionDto.getSessionKey());
-        } catch (Exception e) {
-            log.error("解密数据失败", e);
-        }
+        String result = AESUtils.decrypt(groupDto.getEncryptedData(), groupDto.getIv(), sessionDto.getSessionKey());
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(result);
         String groupId = jsonObject.get("openGId").getAsString();
 
@@ -129,25 +121,10 @@ public class UserServiceImpl implements UserService {
             userMapper.insert(user);
         }
         String shaKey = SHAUtils.getSha1(oauthDto.getOpenid() + oauthDto.getSession_key());
+        userService.putSession(shaKey,
+                               new UserSessionDto(user.getUserId(), user.getOpenId(), oauthDto.getSession_key()));
 
-        // 移除当前用户session数据
-        Iterator<Entry<String, UserSessionDto>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Entry<String, UserSessionDto> entry = iterator.next();
-            if (entry.getValue().getUserId().equals(user.getUserId())) {
-                map.remove(entry.getKey());
-            }
-        }
-
-        // 重新存入用户信息到缓存中
-        map.put(shaKey, new UserSessionDto(user.getUserId(), oauthDto.getOpenid(), oauthDto.getSession_key()));
         return shaKey;
-    }
-
-    @Override
-    public UserSessionDto checkSessionId(String sessionId) {
-
-        return map.get(sessionId);
     }
 
     /**
@@ -222,19 +199,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CachePut(value = "user", key = "'user_'+#uid")
-    public String cachePut(String uid) {
-        return Base64.getEncoder().encodeToString(uid.getBytes());
-    }
-
-    @Override
-    @Cacheable(value = "user", key = "'user_'+#uid")
-    public String cacheGet(String uid) {
-        // TODO Auto-generated method stub
-        return "无缓存";
-    }
-
-    @Override
     public UserDto getUser() {
         UserDto userDto = new UserDto();
         User user = userMapper.selectByPrimaryKey(getCurrentUser());
@@ -242,6 +206,37 @@ public class UserServiceImpl implements UserService {
         userDto.setNickName(StringUtils.base64Decode(user.getNickname()));
         userDto.setGender(user.getGender());
         return userDto;
+    }
+
+    /**
+     * 缓存用户授权信息
+     *
+     * @author troytan
+     * @date 2018年10月14日
+     * @param sessionId
+     * @param user
+     * @return (non-Javadoc)
+     * @see com.troytan.notify.service.UserService#putSession(java.lang.String, com.troytan.notify.dto.UserSessionDto)
+     */
+    @Override
+    @CachePut(value = "session", key = "#sessionId")
+    public UserSessionDto putSession(String sessionId, UserSessionDto user) {
+        return user;
+    }
+
+    /**
+     * 获取用户授权
+     *
+     * @author troytan
+     * @date 2018年10月14日
+     * @param sessionId
+     * @return (non-Javadoc)
+     * @see com.troytan.notify.service.UserService#getSession(java.lang.String)
+     */
+    @Override
+    @Cacheable(value = "session", key = "#sessionId")
+    public UserSessionDto getSession(String sessionId) {
+        return null;
     }
 
 }

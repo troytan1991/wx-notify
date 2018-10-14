@@ -11,13 +11,11 @@ import com.troytan.notify.dto.UserSessionDto;
 
 public interface UserService {
 
-    String registerGroup(GroupDto groupDto);
+    String registerGroup(GroupDto groupDto) throws Exception;
 
     String logUser(OauthDto oauthDto) throws NoSuchAlgorithmException;
     
     Integer getCurrentUser();
-
-    UserSessionDto checkSessionId(String sessionId);
 
     void updateUser(UserDto userDto);
 
@@ -29,8 +27,9 @@ public interface UserService {
 
     List<GroupUserDto> deleteGroupUser(GroupUserDto groupUserDto);
     
-    String cachePut(String uid);
-    String cacheGet(String uid);
-
     UserDto getUser();
+    
+    UserSessionDto putSession(String sessionId, UserSessionDto user);
+    
+    UserSessionDto getSession(String sessionId);
 }
