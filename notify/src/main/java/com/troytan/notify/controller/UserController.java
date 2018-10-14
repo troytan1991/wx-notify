@@ -29,6 +29,7 @@ public class UserController {
     private UserService   userService;
     @Autowired
     private WechatManager wechatManager;
+    
 
     @GetMapping("/persist")
     @NoAuth
@@ -130,6 +131,32 @@ public class UserController {
     @DeleteMapping("/groupUser")
     public List<GroupUserDto> deleteGroupUser(@RequestBody GroupUserDto groupUserDto) {
         return userService.deleteGroupUser(groupUserDto);
+    }
+    /**
+     * 群发通知
+     *
+     * @author troytan
+     * @date 2018年10月12日
+     * @return
+     */
+    @GetMapping("/sendMsg")
+    public int sendMsg() {
+        // 仅管理员调用
+        if (userService.getCurrentUser() != 1) {
+            return 0;
+        }
+        return userService.notifyUser();
+    }
+    /**
+     * 保存formId
+     *
+     * @author troytan
+     * @date 2018年10月12日
+     * @param formIds
+     */
+    @PostMapping("/form")
+    public void saveFormIds(@RequestBody List<String> formIds) {
+        userService.uploadFormIds(formIds);
     }
 
 }

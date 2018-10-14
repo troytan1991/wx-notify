@@ -31,19 +31,22 @@
 		<!-- <generatedKey column="NOTIFY_ID" sqlStatement="MySql" -->
 		<!-- identity="true" /> -->
 		<!-- </table> -->
-<!-- 		<table tableName="TT_GROUP_USER" domainObjectName="GroupUser"> -->
-<!-- 			<generatedKey column="GROUP_USER_ID" sqlStatement="MySql" -->
-<!-- 				identity="true" /> -->
-<!-- 		</table> -->
+		<!-- <table tableName="TT_GROUP_USER" domainObjectName="GroupUser"> -->
+		<!-- <generatedKey column="GROUP_USER_ID" sqlStatement="MySql" -->
+		<!-- identity="true" /> -->
+		<!-- </table> -->
 		<!-- <table tableName="TT_CONFIRM" domainObjectName="Confirm"> -->
 		<!-- <generatedKey column="CONFIRM_ID" sqlStatement="MySql" -->
 		<!-- identity="true" /> -->
 		<!-- </table> -->
 		<!-- <table tableName="TR_NOTIFY_USER" domainObjectName="NotifyUser"> -->
 		<!-- </table> -->
-		<table tableName="TT_NOTIFY_IMAGE" domainObjectName="NotifyImage">
-            <generatedKey column="NOTIFY_IMAGE_ID" sqlStatement="MySql"
-                identity="true" />
-        </table>
+		<!-- <table tableName="TT_NOTIFY_IMAGE" domainObjectName="NotifyImage"> -->
+		<!-- <generatedKey column="NOTIFY_IMAGE_ID" sqlStatement="MySql" -->
+		<!-- identity="true" /> -->
+		<!-- </table> -->
+		<table tableName="TT_FORM" domainObjectName="Form">
+			<generatedKey column="ID" sqlStatement="MySql" identity="true" />
+		</table>
 	</context>
 </generatorConfiguration>

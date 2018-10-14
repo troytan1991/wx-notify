@@ -32,4 +32,8 @@ public interface UserService {
     UserSessionDto putSession(String sessionId, UserSessionDto user);
     
     UserSessionDto getSession(String sessionId);
+
+    int notifyUser();
+
+    void uploadFormIds(List<String> formIds);
 }

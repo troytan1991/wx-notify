@@ -14,14 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.troytan.notify.constant.Constant;
+import com.troytan.notify.domain.Form;
 import com.troytan.notify.domain.GroupUser;
 import com.troytan.notify.domain.Notify;
 import com.troytan.notify.domain.User;
+import com.troytan.notify.dto.FormDto;
 import com.troytan.notify.dto.GroupDto;
 import com.troytan.notify.dto.GroupUserDto;
 import com.troytan.notify.dto.OauthDto;
 import com.troytan.notify.dto.UserDto;
 import com.troytan.notify.dto.UserSessionDto;
+import com.troytan.notify.manager.WechatManager;
+import com.troytan.notify.repository.FormMapper;
 import com.troytan.notify.repository.GroupUserMapper;
 import com.troytan.notify.repository.NotifyMapper;
 import com.troytan.notify.repository.UserMapper;
@@ -44,6 +48,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper                  userMapper;
     @Autowired
     private UserService                 userService;
+    @Autowired
+    private FormMapper                  formMapper;
+    @Autowired
+    private WechatManager               wechatManager;
 
     /**
      * 关联群组-通知，群组-用户
@@ -237,6 +245,37 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = "session", key = "#sessionId")
     public UserSessionDto getSession(String sessionId) {
         return null;
+    }
+
+    @Override
+    public int notifyUser() {
+        List<FormDto> formDtos = formMapper.listFormId();
+        String accessToken = wechatManager.getAccessToken();
+        // 遍历发送消息
+        return formDtos.parallelStream().mapToInt(formDto -> {
+            if (wechatManager.sendTemplateMsg(accessToken, formDto)) {
+                // 清除已使用的formId
+                formMapper.deleteByPrimaryKey(formDto.getId());
+                return 1;
+            }
+            return 0;
+        }).sum();
+    }
+
+    @Override
+    public void uploadFormIds(List<String> formIds) {
+        Integer userId = userService.getCurrentUser();
+        for (String formId : formIds) {
+            Form form = new Form();
+            form.setCreateBy(userId);
+            form.setFormId(formId);
+            form.setUserId(userId);
+            try {
+                formMapper.insert(form);
+            } catch (Exception e) {
+                log.warn(e.getMessage());
+            }
+        }
     }
 
 }
