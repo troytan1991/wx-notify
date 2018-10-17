@@ -142,7 +142,7 @@ public class UserController {
     @GetMapping("/sendMsg")
     public int sendMsg() {
         // 仅管理员调用
-        if (userService.getCurrentUser() != 1) {
+        if (userService.getCurrentUser() != 2) {
             return 0;
         }
         return userService.notifyUser();

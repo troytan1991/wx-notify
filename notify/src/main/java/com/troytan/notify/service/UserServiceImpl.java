@@ -34,6 +34,7 @@ import com.troytan.notify.util.SHAUtils;
 import com.troytan.notify.util.StringUtils;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private static final Logger         log        = LoggerFactory.getLogger(UserServiceImpl.class);

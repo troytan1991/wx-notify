@@ -14,8 +14,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class AESUtils {
 
-    private static Cipher cipher; // 加解密核心实例
-
     /**
      * aes解密
      *
@@ -37,10 +35,9 @@ public class AESUtils {
         Key keySpec = new SecretKeySpec(keyBytes, "AES");
         AlgorithmParameters params = AlgorithmParameters.getInstance("AES");
         params.init(new IvParameterSpec(ivBytes));
-        if (cipher == null) {
-            Security.addProvider(new BouncyCastleProvider());
-            cipher = Cipher.getInstance("AES/CBC/PKCS7Padding", "BC");
-        }
+        Security.addProvider(new BouncyCastleProvider());
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding", "BC");
+
         cipher.init(Cipher.DECRYPT_MODE, keySpec, params);
         return new String(cipher.doFinal(contentBytes), "utf-8");
     }

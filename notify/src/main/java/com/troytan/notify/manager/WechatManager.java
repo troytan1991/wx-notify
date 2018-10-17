@@ -84,7 +84,7 @@ public class WechatManager {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
         map.put("touser", formDto.getOpenId());
-        map.put("template_id", "yYY5AiT_HjPycnrZuzPfD-Lh7CXoOKgp1XQGj1R22a4");
+        map.put("template_id", "GYscxvv_NzK5cZlgusRYxktlHWLplw4rgLEpYcnv4o8");
         map.put("page", "/pages/main/main");
         map.put("form_id", formDto.getFormId());
         data.put("keyword1", new TemplateDataValue("六块腹肌30天训练"));
