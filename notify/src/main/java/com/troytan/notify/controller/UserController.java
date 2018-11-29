@@ -29,13 +29,6 @@ public class UserController {
     private UserService   userService;
     @Autowired
     private WechatManager wechatManager;
-    
-
-    @GetMapping("/persist")
-    @NoAuth
-    public String cachePersist() {
-        return "persist success";
-    }
 
     /**
      * 记录群组信息
@@ -44,7 +37,7 @@ public class UserController {
      * @date 2018年7月10日
      * @param groupDto
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     @PostMapping("/group")
     public String registerGroup(@RequestBody GroupDto groupDto) throws Exception {
@@ -132,6 +125,7 @@ public class UserController {
     public List<GroupUserDto> deleteGroupUser(@RequestBody GroupUserDto groupUserDto) {
         return userService.deleteGroupUser(groupUserDto);
     }
+
     /**
      * 群发通知
      *
@@ -147,6 +141,7 @@ public class UserController {
         }
         return userService.notifyUser();
     }
+
     /**
      * 保存formId
      *

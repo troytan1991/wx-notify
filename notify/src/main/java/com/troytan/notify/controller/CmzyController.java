@@ -19,6 +19,7 @@ import com.troytan.notify.domain.Worker;
 import com.troytan.notify.dto.CustomerDto;
 import com.troytan.notify.dto.DesignerDto;
 import com.troytan.notify.dto.FitmentDto;
+import com.troytan.notify.manager.CmzyManager;
 import com.troytan.notify.service.CmzyService;
 
 @NoAuth
@@ -28,6 +29,8 @@ public class CmzyController {
 
     @Autowired
     private CmzyService cmzyService;
+    @Autowired
+    private CmzyManager cmzyManager;
 
     @NoAuth
     @GetMapping("/news")
@@ -66,6 +69,12 @@ public class CmzyController {
     @PutMapping("/customer")
     public Customer createCustomers(@RequestBody CustomerDto customerDto) {
         return cmzyService.createCustomers(customerDto);
+    }
+
+    @NoAuth
+    @PutMapping("/updateNews")
+    public void updateNews() {
+        cmzyManager.updateNews();
     }
 
 }

@@ -43,9 +43,7 @@ public class CmzyManager {
     public void updateNews() {
         String token = getAccessToken();
         // 更新最近十条
-        int totalCount = getTotalCount(token);
-        int updateCount = totalCount < 10 ? totalCount : 10;
-        NewsRequestDto in = new NewsRequestDto("news", totalCount - updateCount, updateCount);
+        NewsRequestDto in = new NewsRequestDto("news", 0, 10);
         String response = restTemplate.postForObject("https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={1}",
                                                      in, String.class, token);
         JsonParser jParser = new JsonParser();
@@ -100,11 +98,11 @@ public class CmzyManager {
      * @param token
      * @return
      */
-    private int getTotalCount(String token) {
-        String response = restTemplate.getForObject("https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token={1}",
-                                                    String.class, token);
-        JsonObject jsonObject = (JsonObject) new JsonParser().parse(response);
-        return jsonObject.get("news_count").getAsInt();
-    }
+//    private int getTotalCount(String token) {
+//        String response = restTemplate.getForObject("https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token={1}",
+//                                                    String.class, token);
+//        JsonObject jsonObject = (JsonObject) new JsonParser().parse(response);
+//        return jsonObject.get("news_count").getAsInt();
+//    }
 
 }
