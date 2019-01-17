@@ -10,7 +10,7 @@ import com.github.pagehelper.PageHelper;
 /**
  * 后台分页切面
  * 
- * @author s8xriw
+ * @author troytan
  * @date 2017年9月8日
  */
 @Component
@@ -20,7 +20,7 @@ public class PageAspect {
     /**
      * 拦截repository的mapper类，以及方法参数以Page结尾
      * 
-     * @author s8xriw
+     * @author troytan
      * @date 2017年9月8日
      * @param jp
      * @param inputPage

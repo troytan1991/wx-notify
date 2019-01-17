@@ -25,7 +25,7 @@ public class RestApplication extends SpringBootServletInitializer {
     /**
      * 配置restTemplate,用于第三方接口调用
      *
-     * @author s8xriw
+     * @author troytan
      * @date 2018年7月24日
      * @return
      */

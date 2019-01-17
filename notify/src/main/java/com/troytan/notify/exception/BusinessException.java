@@ -9,13 +9,13 @@
 *
 * @File name : BusinessException.java
 *
-* @Author : s8xriw
+* @Author : troytan
 *
 * @Date : 2018年7月31日
 *
 ----------------------------------------------------------------------------------
 *     Date       Who       Version     Comments
-* 1. 2018年7月31日    s8xriw    1.0
+* 1. 2018年7月31日    troytan    1.0
 *
 *
 *
@@ -28,7 +28,7 @@ package com.troytan.notify.exception;
 /**
  * 业务逻辑异常，状态500
  * 
- * @author s8xriw
+ * @author troytan
  * @date 2018年7月31日
  */
 

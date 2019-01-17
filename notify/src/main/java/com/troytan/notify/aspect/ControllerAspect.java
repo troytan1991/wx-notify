@@ -9,13 +9,13 @@
 *
 * @File name : ControllerAspect.java
 *
-* @Author : s8xriw
+* @Author : troytan
 *
 * @Date : 2017年7月31日
 *
 ----------------------------------------------------------------------------------
 *     Date       Who       Version     Comments
-* 1. 2017年7月31日    s8xriw    1.0
+* 1. 2017年7月31日    troytan    1.0
 *
 *
 *
@@ -44,7 +44,7 @@ import com.troytan.notify.exception.RequestException;
 *
 *拦截所有rest-Controller,soap-webservice注解的public方法，记录请求的起止标签
 *
-* @author s8xriw
+* @author troytan
 * @date 2017年7月31日
 */
 @Aspect
@@ -56,7 +56,7 @@ public class ControllerAspect {
     /**
      * 以@Controller或@WebSerivce注解，且为public方法
      *
-     * @author s8xriw
+     * @author troytan
      * @date 2017年7月31日
      */
     @Pointcut("execution(public * com.troytan.notify..*.*(..)) && "
@@ -73,7 +73,7 @@ public class ControllerAspect {
     /**
      * 捕获bindresult属性处理
      *
-     * @author s8xriw
+     * @author troytan
      * @date 2018年7月31日
      * @param jp
      * @param result
@@ -104,7 +104,7 @@ public class ControllerAspect {
     /**
      * Class.method
      *
-     * @author s8xriw
+     * @author troytan
      * @date 2017年7月31日
      * @param jp
      * @return

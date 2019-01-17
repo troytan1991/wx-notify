@@ -9,13 +9,13 @@
 *
 * @File name : ExceptionMapper.java
 *
-* @Author : s8xriw
+* @Author : troytan
 *
 * @Date : 2018年7月23日
 *
 ----------------------------------------------------------------------------------
 *     Date       Who       Version     Comments
-* 1. 2018年7月23日    s8xriw    1.0
+* 1. 2018年7月23日    troytan    1.0
 *
 *
 *
@@ -35,7 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 /**
  * 异常统一处理类,继承基础类,捕获所有@RestMapper下的方法抛出的异常,进行自定义返回对象
  * 
- * @author s8xriw
+ * @author troytan
  * @date 2018年7月23日
  */
 @ControllerAdvice

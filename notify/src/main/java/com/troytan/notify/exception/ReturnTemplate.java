@@ -9,13 +9,13 @@
 *
 * @File name : ReturnTemplate.java
 *
-* @Author : s8xriw
+* @Author : troytan
 *
 * @Date : 2018年7月23日
 *
 ----------------------------------------------------------------------------------
 *     Date       Who       Version     Comments
-* 1. 2018年7月23日    s8xriw    1.0
+* 1. 2018年7月23日    troytan    1.0
 *
 *
 *
@@ -28,7 +28,7 @@ package com.troytan.notify.exception;
 /**
  * TODO description
  * 
- * @author s8xriw
+ * @author troytan
  * @date 2018年7月23日
  */
 

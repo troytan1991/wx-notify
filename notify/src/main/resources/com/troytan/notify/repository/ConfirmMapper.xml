@@ -86,6 +86,7 @@
 	     where NOTIFY_ID=#{notifyId, jdbcType=INTEGER}) and gu.OPEN_ID = user.OPEN_ID
     where NOTIFY_ID=#{notifyId, jdbcType=INTEGER} 
          and confirm.STATUS=2
+    order by confirm.UPDATE_ON
   </select>
   <select id="selectByUserAndNotify"  resultMap="BaseResultMap">
     select CONFIRM_ID, STATUS, NOTIFY_ID, CREATE_BY, CREATE_ON, UPDATE_BY, UPDATE_ON
